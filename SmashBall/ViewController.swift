@@ -50,9 +50,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         /*let ship = SpaceShip()
         ship.loadModal()*/
         
-        let xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
-        let yPos = randomPosition(lowerBound: -1.0, upperBound: 1.0)
-        let zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+        var xPos:Float, yPos:Float, zPos:Float
+        repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: -1.0, upperBound: 1.0)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+        } while norm(xPos, yPos, zPos) < 6
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
@@ -75,10 +78,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
-    /*func distanceIsValid (xPos:Float,) -> Bool {
-        
-    }*/
-    
+    func norm (_ xPos:Float, _ yPos:Float, _ zPos:Float) -> Float {
+        return sqrt(pow(xPos, 2) + pow(yPos, 2) + pow(zPos, 2))
+    }
     
     func randomPosition (lowerBound lower:Float, upperBound upper:Float) -> Float {
         return Float(arc4random()) / Float(UInt32.max) * (lower - upper) + upper
