@@ -52,7 +52,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
-        
         let colors = [UIColor.darkGray, UIColor.blue, UIColor.blue, UIColor.red, UIColor.green, UIColor.cyan]
         
         let sphere = SCNSphere(radius: 0.1)
@@ -70,8 +69,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: false)
     }
-    
-    
     
     func randomPosition (lowerBound lower:Float, upperBound upper:Float) -> Float {
         return Float(arc4random()) / Float(UInt32.max) * (lower - upper) + upper
