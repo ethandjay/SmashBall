@@ -59,11 +59,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
-        
-        let colors = [UIColor.darkGray, UIColor.blue, UIColor.blue, UIColor.red, UIColor.green, UIColor.cyan]
-        
         let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(5))]
+        sphere.firstMaterial?.diffuse.contents = UIImage(named: "metal.jpg")
         let node = SCNNode(geometry: sphere)
         node.name = "ball"
         node.position = position

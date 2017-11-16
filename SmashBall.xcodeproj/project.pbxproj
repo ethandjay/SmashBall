@@ -15,6 +15,7 @@
 		F5CB6F3B1FBC0CD500B27B0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5CB6F391FBC0CD500B27B0D /* LaunchScreen.storyboard */; };
 		F5CB6F461FBC0CD500B27B0D /* SmashBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CB6F451FBC0CD500B27B0D /* SmashBallTests.swift */; };
 		F5CB6F511FBC0CD500B27B0D /* SmashBallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CB6F501FBC0CD500B27B0D /* SmashBallUITests.swift */; };
+		F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6818FDA1FBD3D6E00D67377 /* metal.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		F5CB6F4C1FBC0CD500B27B0D /* SmashBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5CB6F501FBC0CD500B27B0D /* SmashBallUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmashBallUITests.swift; sourceTree = "<group>"; };
 		F5CB6F521FBC0CD500B27B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6818FDA1FBD3D6E00D67377 /* metal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = metal.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				F5CB6F301FBC0CD500B27B0D /* art.scnassets */,
 				F5CB6F321FBC0CD500B27B0D /* ViewController.swift */,
 				F5CB6F341FBC0CD500B27B0D /* Main.storyboard */,
+				F6818FDA1FBD3D6E00D67377 /* metal.jpg */,
 				F5CB6F371FBC0CD500B27B0D /* Assets.xcassets */,
 				F5CB6F391FBC0CD500B27B0D /* LaunchScreen.storyboard */,
 				F5CB6F3C1FBC0CD500B27B0D /* Info.plist */,
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5CB6F311FBC0CD500B27B0D /* art.scnassets in Resources */,
+				F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */,
 				F5CB6F3B1FBC0CD500B27B0D /* LaunchScreen.storyboard in Resources */,
 				F5CB6F381FBC0CD500B27B0D /* Assets.xcassets in Resources */,
 				F5CB6F361FBC0CD500B27B0D /* Main.storyboard in Resources */,
