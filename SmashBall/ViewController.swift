@@ -16,7 +16,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var livesLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var timeField: UILabel!
+    @IBOutlet weak var livesField: UILabel!
+    @IBOutlet weak var scoreField: UILabel!
     
+    
+    var scoreValue: Int = 0
+    var lifeValue: Int = 3
+    var timeValue: Int = 0
+    
+    var timer = Timer()
+    var minutes: Int = 0
+    var seconds: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +43,39 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        livesField.text = String(3)
+        
+        //timer code found here: https://blog.apoorvmote.com/create-simple-stopwatch-with-nstimer-swift/
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
+        
+    }
+    
+    @objc func counter() {
+        seconds += 1
+        if seconds == 60 {
+            minutes += 1
+            seconds = 0
+        }
+        
+        if minutes < 10 {
+            if seconds < 10 {
+                timeField.text = String(0) + String(minutes) + ":" + String(0) + String(seconds)
+            }
+            else {
+                timeField.text = String(0) + String(minutes) + ":" + String(seconds)
+            }
+        }
+        else {
+            if seconds < 10 {
+                timeField.text = String(minutes) + ":" + String(0) + String(seconds)
+            }
+            else {
+                timeField.text = String(minutes) + ":" + String(seconds)
+            }
+        }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,9 +90,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
-        
-        print("test")
-        print("test2")
         
     }
     
@@ -80,13 +121,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(updateBall), userInfo: node, repeats: true)
-    }
-    
-    @objc func updateBall(timer: Timer) -> Void {
-        //        TODO: update velocity of node; check for closeness
-        let node = timer.userInfo as! SCNNode
-        print(node.position.x)
     }
     
     @objc func addPowerUp(){
@@ -102,12 +136,30 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
-        let colors = [UIColor.white]
+        let chosenNumber = Int(arc4random_uniform(4))
+        let colors = [UIColor.white, UIColor.blue, UIColor.red, UIColor.brown]
         
         let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(1))]
+        sphere.firstMaterial?.diffuse.contents = colors[chosenNumber]
         let node = SCNNode(geometry: sphere)
-        node.name = "powerup"
+        
+        if chosenNumber == 0
+        {
+            node.name = "white"
+        }
+        if chosenNumber == 1
+        {
+            node.name = "blue"
+        }
+        if chosenNumber == 2
+        {
+            node.name = "red"
+        }
+        if chosenNumber == 3
+        {
+            node.name = "brown"
+        }
+        
         node.position = position
         
         sceneView.scene.rootNode.addChildNode(node)
@@ -133,10 +185,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             if let hitObject = hitList.first {
                 let node = hitObject.node
                 
-                if node.name == "ball" || node.name == "powerup" {
-                    
+                if node.name == "red" {
+                    scoreValue += 5
+                    scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
                 }
+                
+                if node.name == "blue" {
+                    lifeValue += 1
+                    livesField.text = String(lifeValue)
+                    node.removeFromParentNode()
+                }
+                
+                if node.name == "ball" {
+                    scoreValue += 15
+                    scoreField.text = String(scoreValue)
+                    node.removeFromParentNode()
+                }
+                
             }
         }
     }
@@ -179,5 +245,4 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
 }
-
 
