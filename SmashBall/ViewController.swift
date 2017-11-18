@@ -48,6 +48,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
         
         print("test")
+        print("test2")
         
     }
     
