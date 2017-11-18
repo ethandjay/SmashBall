@@ -11,8 +11,12 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var livesLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,34 +39,35 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        
         // Run the view's session
         sceneView.session.run(configuration)
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
-        print("test")
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
         
+        print("test")
         
     }
     
     @objc func addObject(){
         /*let ship = SpaceShip()
-        ship.loadModal()*/
+         ship.loadModal()*/
         
         var xPos:Float, yPos:Float, zPos:Float
-        repeat {
-            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
-            yPos = randomPosition(lowerBound: -1.0, upperBound: 1.0)
-            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
-        } while norm(xPos, yPos, zPos) < 6
+        //repeat {
+        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+        //} while node(xPos, yPos, zPos) < 6
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
-        let colors = [UIColor.darkGray, UIColor.blue, UIColor.blue, UIColor.red, UIColor.green, UIColor.cyan]
+        let colors = [UIColor.darkGray]
         
         let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(5))]
+        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(1))]
         let node = SCNNode(geometry: sphere)
         node.name = "ball"
         node.position = position
@@ -73,8 +78,36 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
-    
         
+    }
+    
+    @objc func addPowerUp(){
+        /*let ship = SpaceShip()
+         ship.loadModal()*/
+        
+        var xPos:Float, yPos:Float, zPos:Float
+        //repeat {
+        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+        //} while node(xPos, yPos, zPos) < 6
+        
+        let position = SCNVector3Make(xPos, yPos, zPos)
+        
+        let colors = [UIColor.white]
+        
+        let sphere = SCNSphere(radius: 0.1)
+        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(1))]
+        let node = SCNNode(geometry: sphere)
+        node.name = "powerup"
+        node.position = position
+        
+        sceneView.scene.rootNode.addChildNode(node)
+        
+        let randSpeed = SCNVector3(0, -yPos/5, 0)
+        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        node.physicsBody?.isAffectedByGravity = false
+        node.physicsBody?.applyForce(randSpeed, asImpulse: true)
     }
     
     func randomPosition (lowerBound lower:Float, upperBound upper:Float) -> Float {
@@ -83,17 +116,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
- 
+        
         if let touch = touches.first {
             let location = touch.location(in: sceneView)
             
             let hitList = sceneView.hitTest(location, options: nil)
-          
+            
             if let hitObject = hitList.first {
                 let node = hitObject.node
-             
-                if node.name == "ball" {
                 
+                if node.name == "ball" || node.name == "powerup" {
+                    
                     node.removeFromParentNode()
                 }
             }
@@ -111,17 +144,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
+    
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
+    /*
+     // Override to create and configure nodes for anchors added to the view's session.
+     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+     let node = SCNNode()
      
-        return node
-    }
-*/
+     return node
+     }
+     */
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -138,3 +171,5 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
 }
+
+
