@@ -79,6 +79,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
         
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(updateBall), userInfo: node, repeats: true)
+    }
+    
+    @objc func updateBall(timer: Timer) -> Void {
+        //        TODO: update velocity of node; check for closeness
+        let node = timer.userInfo as! SCNNode
+        print(node.position.x)
     }
     
     @objc func addPowerUp(){
