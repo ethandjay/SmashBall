@@ -124,10 +124,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let position = SCNVector3Make(xPos, yPos, zPos)
         
-        let colors = [UIColor.darkGray]
-        
         let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(1))]
+        sphere.firstMaterial?.diffuse.contents = UIImage(named: "metal.jpg")
         let edge = SCNMaterial()
         edge.shininess = 50.0
         
