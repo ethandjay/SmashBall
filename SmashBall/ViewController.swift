@@ -13,12 +13,39 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
+    
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var timeField: UILabel!
+    @IBOutlet weak var livesLabel: UILabel!
+    @IBOutlet weak var livesField: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var scoreField: UILabel!
+    
+    @IBOutlet weak var powerUp1Field: UIBarButtonItem!
+    @IBOutlet weak var powerUp2Field: UIBarButtonItem!
+    @IBOutlet weak var powerUp3Field: UIBarButtonItem!
+    @IBOutlet weak var powerUp4Field: UIBarButtonItem!
+    @IBOutlet weak var powerUp5Field: UIBarButtonItem!
+    
+    @IBAction func powerUp1(_ sender: Any) {
+    }
+    @IBAction func powerUp2(_ sender: Any) {
+    }
+    @IBAction func powerUp3(_ sender: Any) {
+    }
+    @IBAction func powerUp4(_ sender: Any) {
+    }
+    @IBAction func powerUp5(_ sender: Any) {
+    }
+    
+    /*
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var livesLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var timeField: UILabel!
     @IBOutlet weak var livesField: UILabel!
-    @IBOutlet weak var scoreField: UILabel!
+    @IBOutlet weak var scoreField: UILabel! */
     
     
     var scoreValue: Int = 0
