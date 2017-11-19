@@ -16,6 +16,7 @@
 		F5CB6F461FBC0CD500B27B0D /* SmashBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CB6F451FBC0CD500B27B0D /* SmashBallTests.swift */; };
 		F5CB6F511FBC0CD500B27B0D /* SmashBallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CB6F501FBC0CD500B27B0D /* SmashBallUITests.swift */; };
 		F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6818FDA1FBD3D6E00D67377 /* metal.jpg */; };
+		F6E6DCE01FC23A98007BE2F4 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F6E6DCDF1FC23A97007BE2F4 /* heart.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		F5CB6F501FBC0CD500B27B0D /* SmashBallUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmashBallUITests.swift; sourceTree = "<group>"; };
 		F5CB6F521FBC0CD500B27B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6818FDA1FBD3D6E00D67377 /* metal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = metal.jpg; sourceTree = "<group>"; };
+		F6E6DCDF1FC23A97007BE2F4 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				F5CB6F321FBC0CD500B27B0D /* ViewController.swift */,
 				F5CB6F341FBC0CD500B27B0D /* Main.storyboard */,
 				F6818FDA1FBD3D6E00D67377 /* metal.jpg */,
+				F6E6DCDF1FC23A97007BE2F4 /* heart.png */,
 				F5CB6F371FBC0CD500B27B0D /* Assets.xcassets */,
 				F5CB6F391FBC0CD500B27B0D /* LaunchScreen.storyboard */,
 				F5CB6F3C1FBC0CD500B27B0D /* Info.plist */,
@@ -242,6 +245,7 @@
 				F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */,
 				F5CB6F3B1FBC0CD500B27B0D /* LaunchScreen.storyboard in Resources */,
 				F5CB6F381FBC0CD500B27B0D /* Assets.xcassets in Resources */,
+				F6E6DCE01FC23A98007BE2F4 /* heart.png in Resources */,
 				F5CB6F361FBC0CD500B27B0D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -435,7 +439,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SUYQ3VEZ59;
+				DEVELOPMENT_TEAM = 5M6LV355US;
 				INFOPLIST_FILE = SmashBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ethandjay.SmashBall;
@@ -450,7 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SUYQ3VEZ59;
+				DEVELOPMENT_TEAM = 5M6LV355US;
 				INFOPLIST_FILE = SmashBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ethandjay.SmashBall;

@@ -15,31 +15,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var player: AVAudioPlayer!
     
     @IBOutlet var sceneView: ARSCNView!
-
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var playButton: UIButton!
+    
     @IBOutlet weak var timeField: UILabel!
-    @IBOutlet weak var livesLabel: UILabel!
     @IBOutlet weak var livesField: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var scoreField: UILabel!
     
-    @IBOutlet weak var powerUp1Field: UIBarButtonItem!
-    @IBOutlet weak var powerUp2Field: UIBarButtonItem!
-    @IBOutlet weak var powerUp3Field: UIBarButtonItem!
-    @IBOutlet weak var powerUp4Field: UIBarButtonItem!
-    @IBOutlet weak var powerUp5Field: UIBarButtonItem!
-    
-    @IBAction func powerUp1(_ sender: Any) {
-    }
-    @IBAction func powerUp2(_ sender: Any) {
-    }
-    @IBAction func powerUp3(_ sender: Any) {
-    }
-    @IBAction func powerUp4(_ sender: Any) {
-    }
-    @IBAction func powerUp5(_ sender: Any) {
-    }
-    
+    @IBOutlet weak var powerUpButton1: UIButton!
+    @IBOutlet weak var powerUpButton2: UIButton!
+    @IBOutlet weak var powerUpButton3: UIButton!
     
     var scoreValue: Int = 0
     var lifeValue: Int = 3
@@ -49,8 +34,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var minutes: Int = 0
     var seconds: Int = 0
     
+    var blurView: UIVisualEffectView?
+    
+    @IBAction func playPressed(_ sender: Any) {
+        for child in view.subviews {
+            child.isHidden = false
+        }
+        blurView!.isHidden = true
+        titleLabel.isHidden = true
+        playButton.isHidden = true
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -65,9 +63,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.scene = scene
         
         livesField.text = String(3)
+        scoreField.text = "0"
+        livesField.font = UIFont.boldSystemFont(ofSize: 16)
+        timeField.font = UIFont.boldSystemFont(ofSize: 16)
+        scoreField.font = UIFont.boldSystemFont(ofSize: 16)
+        powerUpButton1.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
+        powerUpButton2.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
+        powerUpButton3.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
         
         //timer code found here: https://blog.apoorvmote.com/create-simple-stopwatch-with-nstimer-swift/
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
+
+        // Load menu
+        for child in view.subviews {
+            child.isHidden = true
+        }
+        sceneView.isHidden = false
+        titleLabel.isHidden = false
+        playButton.isHidden = false
+        
+        let blur = UIBlurEffect(style: .light)
+        blurView = UIVisualEffectView(effect: blur)
+        blurView!.frame = view.bounds
+        view.addSubview(blurView!)
+        view.bringSubview(toFront: blurView!)
+        view.bringSubview(toFront: titleLabel)
+        view.bringSubview(toFront: playButton)
     }
     
     @objc func counter() {
