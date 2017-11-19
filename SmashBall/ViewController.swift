@@ -12,9 +12,10 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
     
+    var player: AVAudioPlayer!
+    
     @IBOutlet var sceneView: ARSCNView!
-    
-    
+
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeField: UILabel!
     @IBOutlet weak var livesLabel: UILabel!
@@ -38,14 +39,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     @IBAction func powerUp5(_ sender: Any) {
     }
-    
-    /*
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var livesLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var timeField: UILabel!
-    @IBOutlet weak var livesField: UILabel!
-    @IBOutlet weak var scoreField: UILabel! */
     
     
     var scoreValue: Int = 0
@@ -75,7 +68,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         //timer code found here: https://blog.apoorvmote.com/create-simple-stopwatch-with-nstimer-swift/
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
-        
     }
     
     @objc func counter() {
@@ -101,7 +93,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 timeField.text = String(minutes) + ":" + String(seconds)
             }
         }
-        
         
     }
     
@@ -137,6 +128,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let sphere = SCNSphere(radius: 0.1)
         sphere.firstMaterial?.diffuse.contents = colors[Int(arc4random_uniform(1))]
+        let edge = SCNMaterial()
+        edge.shininess = 50.0
+        
         let node = SCNNode(geometry: sphere)
         node.name = "ball"
         node.position = position
@@ -203,7 +197,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        
         if let touch = touches.first {
             let location = touch.location(in: sceneView)
             
@@ -225,11 +218,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 
                 if node.name == "ball" {
+                    self.playSoundEffect(ofType: .collision)
                     scoreValue += 15
                     scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
                 }
-                
             }
         }
     }
@@ -271,5 +264,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+    
+    func playSoundEffect(ofType effect: SoundEffect) {
+        do {
+            guard let effectURL = Bundle.main.url(forResource: effect.rawValue, withExtension: "mp3") else { return }
+            self.player = try AVAudioPlayer(contentsOf: effectURL)
+            self.player.play()
+        } catch let error as NSError {
+            print(error.description)
+        }
+    }
+    
+    enum SoundEffect: String {
+        case collision = "collision"
+    }
+    
 }
-
