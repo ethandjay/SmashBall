@@ -62,7 +62,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
         
-        livesField.text = String(3)
+        livesField.text = "x3"
         scoreField.text = "0"
         livesField.font = UIFont.boldSystemFont(ofSize: 16)
         timeField.font = UIFont.boldSystemFont(ofSize: 16)
@@ -231,7 +231,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 if node.name == "blue" {
                     lifeValue += 1
-                    livesField.text = String(lifeValue)
+                    livesField.text = String("x\(lifeValue)")
                     node.removeFromParentNode()
                 }
                 
