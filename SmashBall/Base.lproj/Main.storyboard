@@ -63,19 +63,31 @@
                                 <rect key="frame" x="0.0" y="619" width="375" height="48"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xcY-VA-aIx">
-                                        <rect key="frame" x="-0.5" y="9" width="375" height="30"/>
+                                        <rect key="frame" x="-0.5" y="5" width="375" height="38"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWO-bg-xIY">
-                                                <rect key="frame" x="0.0" y="0.0" width="125" height="30"/>
-                                                <state key="normal" title="Button"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="125" height="38"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                <state key="normal" title="                    "/>
+                                                <connections>
+                                                    <action selector="powerUp1:" destination="BV1-FR-VrT" eventType="touchUpInside" id="wKF-AC-hIR"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBV-WV-RT2">
-                                                <rect key="frame" x="125" y="0.0" width="125" height="30"/>
-                                                <state key="normal" title="Button"/>
+                                                <rect key="frame" x="125" y="0.0" width="125" height="38"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                <state key="normal" title="                    "/>
+                                                <connections>
+                                                    <action selector="powerUp2:" destination="BV1-FR-VrT" eventType="touchUpInside" id="xfr-WL-RP0"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77q-lu-Mzh">
-                                                <rect key="frame" x="250" y="0.0" width="125" height="30"/>
-                                                <state key="normal" title="Button"/>
+                                                <rect key="frame" x="250" y="0.0" width="125" height="38"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                <state key="normal" title="                     "/>
+                                                <connections>
+                                                    <action selector="powerUp3:" destination="BV1-FR-VrT" eventType="touchUpInside" id="1zu-4g-sYg"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

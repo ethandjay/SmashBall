@@ -5,6 +5,8 @@
 //  Created by Vu Ngo on 14.11.17.
 //  Copyright © 2017 Vu Ngo. All rights reserved.
 //
+//  timer code found here: https://blog.apoorvmote.com/create-simple-stopwatch-with-nstimer-swift/
+
 
 import UIKit
 import SceneKit
@@ -35,6 +37,42 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var seconds: Int = 0
     
     var blurView: UIVisualEffectView?
+    
+    @IBAction func powerUp1(_ sender: Any) {
+        if powerUpButton1.titleLabel!.text == "+5 Points" {
+            scoreValue += 5
+            scoreField.text = String(scoreValue)
+            powerUpButton1.titleLabel!.text == "                    "
+        }
+        else if powerUpButton1.titleLabel!.text == "Life" {
+            lifeValue += 1
+            livesField.text = String("x\(lifeValue)")
+            powerUpButton1.titleLabel!.text == "                    "
+        }
+    }
+    
+    @IBAction func powerUp2(_ sender: Any) {
+        if powerUpButton2.titleLabel!.text == "5 Points" {
+            scoreValue += 5
+            scoreField.text = String(scoreValue)
+        }
+        else if powerUpButton2.titleLabel!.text == "Life" {
+            lifeValue += 1
+            livesField.text = String("x\(lifeValue)")
+        }
+    }
+    
+    @IBAction func powerUp3(_ sender: Any) {
+        if powerUpButton3.titleLabel!.text == "5 Points" {
+            scoreValue += 5
+            scoreField.text = String(scoreValue)
+        }
+        else if powerUpButton3.titleLabel!.text == "Life" {
+            lifeValue += 1
+            livesField.text = String("x\(lifeValue)")
+        }
+    }
+
     
     @IBAction func playPressed(_ sender: Any) {
         for child in view.subviews {
@@ -67,12 +105,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         livesField.font = UIFont.boldSystemFont(ofSize: 16)
         timeField.font = UIFont.boldSystemFont(ofSize: 16)
         scoreField.font = UIFont.boldSystemFont(ofSize: 16)
-        powerUpButton1.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
-        powerUpButton2.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
-        powerUpButton3.titleLabel!.font = UIFont.boldSystemFont(ofSize: 16)
+        powerUpButton1.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
+        powerUpButton2.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
+        powerUpButton3.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
         
-        //timer code found here: https://blog.apoorvmote.com/create-simple-stopwatch-with-nstimer-swift/
-
         // Load menu
         for child in view.subviews {
             child.isHidden = true
@@ -128,6 +164,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
     }
     
@@ -209,6 +247,42 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
     }
     
+    @objc func addCoin() {
+        var coinGeometry = SCNGeometry()
+        coinGeometry = SCNCylinder(radius:  0.10, height:  0.02)
+        let edge = SCNMaterial()
+        edge.shininess = 50.0
+        edge.reflective.contents = UIImage(named: "coin_reflect.png")!
+        edge.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
+        edge.specular.contents = UIColor.white
+        
+        let surface = SCNMaterial()
+        surface.shininess = 50.0
+        surface.reflective.contents = UIImage(named: "coin_reflect.png")!
+        surface.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
+        surface.specular.contents = UIColor.white
+        coinGeometry.materials = [edge, surface, surface]
+        
+        let node = SCNNode(geometry: coinGeometry)
+        node.eulerAngles = SCNVector3(0, 0, CGFloat(0.5 * .pi))
+        node.name = "coin"
+        
+        var xPos:Float, yPos:Float, zPos:Float
+        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+        
+        let position = SCNVector3Make(xPos, yPos, zPos)
+        node.position = position
+        sceneView.scene.rootNode.addChildNode(node)
+        
+        let randSpeed = SCNVector3(0, -yPos/5, 0)
+        
+        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        node.physicsBody?.isAffectedByGravity = false
+        node.physicsBody?.applyForce(randSpeed, asImpulse: true)
+    }
+    
     func randomPosition (lowerBound lower:Float, upperBound upper:Float) -> Float {
         return Float(arc4random()) / Float(UInt32.max) * (lower - upper) + upper
     }
@@ -223,15 +297,47 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             if let hitObject = hitList.first {
                 let node = hitObject.node
                 
-                if node.name == "red" {
-                    scoreValue += 5
-                    scoreField.text = String(scoreValue)
+                if node.name == "coin" {
                     node.removeFromParentNode()
+                    if powerUpButton1.titleLabel!.text == "                    " {
+                        powerUpButton1.titleLabel!.text = "+5 Points"
+                    }
+                    else if (powerUpButton1.titleLabel!.text != "                    " && powerUpButton2.titleLabel!.text == "                    ") {
+                        powerUpButton2.titleLabel!.text = "+5 Points"
+                    }
+                    else if (powerUpButton3.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text != "                    " && powerUpButton2.titleLabel!.text != "                    ") {
+                        powerUpButton3.titleLabel!.text = "+5 Points"
+                    }
+                    else {
+                        print("no room for power ups")
+                    }
                 }
                 
+                //design as a heart
                 if node.name == "blue" {
-                    lifeValue += 1
-                    livesField.text = String("x\(lifeValue)")
+                    node.removeFromParentNode()
+                    if powerUpButton1.titleLabel!.text == "                    " {
+                        powerUpButton1.titleLabel!.text = "Life"
+                    }
+                    else if powerUpButton2.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text != "                    " {
+                        powerUpButton2.titleLabel!.text = "Life"
+                    }
+                    else if powerUpButton3.titleLabel!.text == "                    " && powerUpButton2.titleLabel!.text != "                    " {
+                        powerUpButton1.titleLabel!.text = "Life"
+                    }
+                    else {
+                        print("No room for power ups")
+                    }
+                }
+                
+                //slow down balls - design as a clock
+                if node.name == "brown" {
+                    node.removeFromParentNode()
+                    
+                }
+                
+                //double points - design as an X
+                if node.name == "white" {
                     node.removeFromParentNode()
                 }
                 
@@ -244,6 +350,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
     }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
