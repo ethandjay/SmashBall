@@ -13,7 +13,12 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
+    @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var highScoreButton: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var nameLabel: UILabel!
     var player: AVAudioPlayer!
     
     @IBOutlet var sceneView: ARSCNView!
@@ -23,7 +28,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var timeField: UILabel!
     @IBOutlet weak var livesField: UILabel!
     @IBOutlet weak var scoreField: UILabel!
+    @IBOutlet weak var gameOverLabel: UILabel!
     
+    @IBOutlet weak var finalTimeLabel: UILabel!
+    @IBOutlet weak var finalScoreLabel: UILabel!
+    @IBOutlet weak var finalTimeField: UILabel!
+    @IBOutlet weak var finalScoreField: UILabel!
     @IBOutlet weak var powerUpButton1: UIButton!
     @IBOutlet weak var powerUpButton2: UIButton!
     @IBOutlet weak var powerUpButton3: UIButton!
@@ -36,18 +46,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var minutes: Int = 0
     var seconds: Int = 0
     
+    var moving = true
+    
     var blurView: UIVisualEffectView?
     
     @IBAction func powerUp1(_ sender: Any) {
         if powerUpButton1.titleLabel!.text == "+5 Points" {
             scoreValue += 5
             scoreField.text = String(scoreValue)
-            powerUpButton1.titleLabel!.text == "                    "
+            //powerUpButton1.titleLabel!.text == "                    "
         }
         else if powerUpButton1.titleLabel!.text == "Life" {
             lifeValue += 1
             livesField.text = String("x\(lifeValue)")
-            powerUpButton1.titleLabel!.text == "                    "
+            //powerUpButton1.titleLabel!.text == "                    "
         }
     }
     
@@ -81,12 +93,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         blurView!.isHidden = true
         titleLabel.isHidden = true
         playButton.isHidden = true
+        gameOverLabel.isHidden = true
+        finalTimeLabel.isHidden = true
+        finalScoreLabel.isHidden = true
+        finalTimeField.isHidden = true
+        finalScoreField.isHidden = true
+        nameField.isHidden = true
+        nameLabel.isHidden = true
+        submitButton.isHidden = true
+         highScoreButton.isHidden = true
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -116,6 +137,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.isHidden = false
         titleLabel.isHidden = false
         playButton.isHidden = false
+        highScoreButton.isHidden = false
+        gameOverLabel.isHidden = true
+        finalTimeLabel.isHidden = true
+        finalScoreLabel.isHidden = true
+        finalTimeField.isHidden = true
+        finalScoreField.isHidden = true
+        nameField.isHidden = true
+        nameLabel.isHidden = true
+        submitButton.isHidden = true
         
         let blur = UIBlurEffect(style: .light)
         blurView = UIVisualEffectView(effect: blur)
@@ -124,6 +154,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         view.bringSubview(toFront: blurView!)
         view.bringSubview(toFront: titleLabel)
         view.bringSubview(toFront: playButton)
+        view.bringSubview(toFront: highScoreButton)
     }
     
     @objc func counter() {
@@ -150,6 +181,73 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
         
+        if seconds == 30 {
+            timer.invalidate()
+            
+            let blur = UIBlurEffect(style: .light)
+            blurView = UIVisualEffectView(effect: blur)
+            blurView!.frame = view.bounds
+            view.addSubview(blurView!)
+            view.addSubview(scrollView!)
+            view.bringSubview(toFront: blurView!)
+            view.bringSubview(toFront: gameOverLabel)
+            view.bringSubview(toFront: finalTimeLabel)
+            view.bringSubview(toFront: finalScoreLabel)
+            view.bringSubview(toFront: finalTimeField)
+            view.bringSubview(toFront: finalScoreField)
+            view.bringSubview(toFront: nameField)
+            view.bringSubview(toFront: nameLabel)
+            view.bringSubview(toFront: submitButton)
+            
+            gameOverLabel.isHidden = false
+            finalTimeLabel.isHidden = false
+            finalScoreLabel.isHidden = false
+            finalTimeField.isHidden = false
+            finalScoreField.isHidden = false
+            nameField.isHidden = false
+            nameLabel.isHidden = false
+            submitButton.isHidden = false
+            
+            finalScoreField.text = String(scoreValue)
+            
+            if minutes < 10 {
+                if seconds < 10 {
+                    finalTimeField.text = String(0) + String(minutes) + ":" + String(0) + String(seconds)
+                }
+                else {
+                    finalTimeField.text = String(0) + String(minutes) + ":" + String(seconds)
+                }
+            }
+            else {
+                if seconds < 10 {
+                    finalTimeField.text = String(minutes) + ":" + String(0) + String(seconds)
+                }
+                else {
+                    finalTimeField.text = String(minutes) + ":" + String(seconds)
+                }
+            }
+        }
+    }
+    
+    @IBAction func submitAction(_ sender: Any) {
+        view.addSubview(blurView!)
+        view.bringSubview(toFront: blurView!)
+        view.bringSubview(toFront: titleLabel)
+        view.bringSubview(toFront: playButton)
+        view.bringSubview(toFront: highScoreButton)
+        
+        blurView!.isHidden = false
+        titleLabel.isHidden = false
+        playButton.isHidden = false
+        gameOverLabel.isHidden = true
+        finalTimeLabel.isHidden = true
+        finalScoreLabel.isHidden = true
+        finalTimeField.isHidden = true
+        finalScoreField.isHidden = true
+        nameField.isHidden = true
+        nameLabel.isHidden = true
+        submitButton.isHidden = true
+        highScoreButton.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -167,6 +265,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
+//        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addHeart), userInfo: nil, repeats: true)
     }
     
     @objc func addObject(){
@@ -193,10 +292,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneView.scene.rootNode.addChildNode(node)
         
-        let randSpeed = SCNVector3(-xPos/5, -yPos/5, -zPos/5)
+        var randSpeed = SCNVector3(-xPos/5, -yPos/5, -zPos/5)
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
+        
+//        if moving == false
+//        {
+//            randSpeed = SCNVector3(0, 0, 0)
+//            node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+//            node.physicsBody?.isAffectedByGravity = true
+//            node.physicsBody?.applyForce(randSpeed, asImpulse: true)
+//            print("stop movement")
+//        }
         
     }
     
@@ -245,6 +353,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
+        
     }
     
     @objc func addCoin() {
@@ -281,7 +390,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
+        
+        if yPos == -1.5 {
+            node.removeFromParentNode()
+        }
+        
+        if moving == false {
+            print("y position = " + String(yPos))
+            print("test")
+        }
     }
+    
     
     func randomPosition (lowerBound lower:Float, upperBound upper:Float) -> Float {
         return Float(arc4random()) / Float(UInt32.max) * (lower - upper) + upper
@@ -298,28 +417,33 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 let node = hitObject.node
                 
                 if node.name == "coin" {
+                    moving = false
+                    self.playSoundEffect(ofType: .coin)
                     node.removeFromParentNode()
-                    if powerUpButton1.titleLabel!.text == "                    " {
+                    if powerUpButton1.titleLabel!.text == "Power Up 1" {
                         powerUpButton1.titleLabel!.text = "+5 Points"
-                    }
-                    else if (powerUpButton1.titleLabel!.text != "                    " && powerUpButton2.titleLabel!.text == "                    ") {
                         powerUpButton2.titleLabel!.text = "+5 Points"
                     }
-                    else if (powerUpButton3.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text != "                    " && powerUpButton2.titleLabel!.text != "                    ") {
-                        powerUpButton3.titleLabel!.text = "+5 Points"
+                    else if (powerUpButton2.titleLabel!.text != "Power Up 2" &&
+                        powerUpButton1.titleLabel!.text == "+5 Points") {
+                        powerUpButton1.titleLabel!.text = "+5 Points"
+                        powerUpButton2.titleLabel!.text = "+5 Points"
                     }
-                    else {
-                        print("no room for power ups")
+                    else if (powerUpButton3.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text == "+5 Points" && powerUpButton2.titleLabel!.text == "+5 Points") {
+                        powerUpButton1.titleLabel!.text = "+5 Points"
+                        powerUpButton2.titleLabel!.text = "+5 Points"
+                        powerUpButton3.titleLabel!.text = "+5 Points"
                     }
                 }
                 
                 //design as a heart
                 if node.name == "blue" {
+                    self.playSoundEffect(ofType: .torpedo)
                     node.removeFromParentNode()
                     if powerUpButton1.titleLabel!.text == "                    " {
                         powerUpButton1.titleLabel!.text = "Life"
                     }
-                    else if powerUpButton2.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text != "                    " {
+                    else if powerUpButton2.titleLabel!.text == "                    " {
                         powerUpButton2.titleLabel!.text = "Life"
                     }
                     else if powerUpButton3.titleLabel!.text == "                    " && powerUpButton2.titleLabel!.text != "                    " {
@@ -332,12 +456,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 //slow down balls - design as a clock
                 if node.name == "brown" {
+                    self.playSoundEffect(ofType: .clock)
                     node.removeFromParentNode()
-                    
                 }
                 
                 //double points - design as an X
                 if node.name == "white" {
+                    self.playSoundEffect(ofType: .double_points)
+                    scoreValue += scoreValue*2
+                    scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
                 }
                 
@@ -346,6 +473,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     scoreValue += 15
                     scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
+                    //moving = false
                 }
             }
         }
@@ -402,6 +530,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     enum SoundEffect: String {
         case collision = "collision"
+        case coin = "coin"
+        case torpedo = "torpedo"
+        case clock = "clock"
+        case double_points = "double_points"
     }
     
 }
