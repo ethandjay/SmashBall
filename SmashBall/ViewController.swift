@@ -34,57 +34,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var finalScoreLabel: UILabel!
     @IBOutlet weak var finalTimeField: UILabel!
     @IBOutlet weak var finalScoreField: UILabel!
-    @IBOutlet weak var powerUpButton1: UIButton!
-    @IBOutlet weak var powerUpButton2: UIButton!
-    @IBOutlet weak var powerUpButton3: UIButton!
+    
     
     var scoreValue: Int = 0
-    var lifeValue: Int = 3
+    var lifeValue: Int = 10
     var timeValue: Int = 0
     
     var timer = Timer()
     var minutes: Int = 0
     var seconds: Int = 0
     
-    var moving = true
+    var speedClicked = false
+    var doublePoints = false
+    var isInvulnerable = false
     
     var blurView: UIVisualEffectView?
     
-    @IBAction func powerUp1(_ sender: Any) {
-        if powerUpButton1.titleLabel!.text == "+5 Points" {
-            scoreValue += 5
-            scoreField.text = String(scoreValue)
-            //powerUpButton1.titleLabel!.text == "                    "
-        }
-        else if powerUpButton1.titleLabel!.text == "Life" {
-            lifeValue += 1
-            livesField.text = String("x\(lifeValue)")
-            //powerUpButton1.titleLabel!.text == "                    "
-        }
-    }
-    
-    @IBAction func powerUp2(_ sender: Any) {
-        if powerUpButton2.titleLabel!.text == "5 Points" {
-            scoreValue += 5
-            scoreField.text = String(scoreValue)
-        }
-        else if powerUpButton2.titleLabel!.text == "Life" {
-            lifeValue += 1
-            livesField.text = String("x\(lifeValue)")
-        }
-    }
-    
-    @IBAction func powerUp3(_ sender: Any) {
-        if powerUpButton3.titleLabel!.text == "5 Points" {
-            scoreValue += 5
-            scoreField.text = String(scoreValue)
-        }
-        else if powerUpButton3.titleLabel!.text == "Life" {
-            lifeValue += 1
-            livesField.text = String("x\(lifeValue)")
-        }
-    }
-
     
     @IBAction func playPressed(_ sender: Any) {
         for child in view.subviews {
@@ -101,9 +66,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         nameField.isHidden = true
         nameLabel.isHidden = true
         submitButton.isHidden = true
-         highScoreButton.isHidden = true
+        highScoreButton.isHidden = true
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
+        
     }
     
     override func viewDidLoad() {
@@ -121,14 +93,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
         
-        livesField.text = "x3"
+        livesField.text = String(lifeValue)
         scoreField.text = "0"
         livesField.font = UIFont.boldSystemFont(ofSize: 16)
         timeField.font = UIFont.boldSystemFont(ofSize: 16)
         scoreField.font = UIFont.boldSystemFont(ofSize: 16)
-        powerUpButton1.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
-        powerUpButton2.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
-        powerUpButton3.titleLabel!.font = UIFont.boldSystemFont(ofSize: 21)
         
         // Load menu
         for child in view.subviews {
@@ -158,6 +127,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @objc func counter() {
+        
+        updatePosition()
+        
+        checkHit()
+        
         seconds += 1
         if seconds == 60 {
             minutes += 1
@@ -181,7 +155,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
         
-        if seconds == 30 {
+        if minutes == 30 {
             timer.invalidate()
             
             let blur = UIBlurEffect(style: .light)
@@ -229,6 +203,48 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
     }
     
+    func updatePosition() {
+        if speedClicked == false {
+            for n in self.sceneView.scene.rootNode.childNodes {
+                if n.name == "ball" {
+                    
+                    n.position.x = n.position.x - n.position.x/5
+                    n.position.y = n.position.y - n.position.y/5
+                    n.position.z = n.position.z - n.position.z/5
+                    self.changeSpeed(xDirection: -n.position.x/5, yDirection: -n.position.y/5, zDirection: -n.position.z/5, node: n)
+                    
+                } else {
+                    n.position.y = n.position.y - n.position.y/5
+                    self.changeSpeed(xDirection: 0, yDirection: -n.position.y/5, zDirection: 0, node: n)
+                }
+                
+            }
+        }
+        
+    }
+    
+    func checkHit() {
+        for n in self.sceneView.scene.rootNode.childNodes {
+            if n.name == "ball" {
+                if distanceToUser(xPos: n.position.x, yPos: n.position.y, zPos: n.position.z) <= 0.5 {
+                    n.removeFromParentNode()
+                    if isInvulnerable == false {
+                        lifeValue -= 1
+                        livesField.text = String(lifeValue)
+                    }
+                }
+            } else {
+                if n.position.y <= 0.5 {
+                    n.removeFromParentNode()
+                }
+            }
+        }
+    }
+    
+    func distanceToUser (xPos: Float, yPos: Float, zPos: Float) -> Float{
+        return sqrtf(xPos*xPos + yPos*yPos + zPos*zPos)
+    }
+    
     @IBAction func submitAction(_ sender: Any) {
         view.addSubview(blurView!)
         view.bringSubview(toFront: blurView!)
@@ -259,145 +275,136 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Run the view's session
         sceneView.session.run(configuration)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
-        
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
-        
-//        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addHeart), userInfo: nil, repeats: true)
+        //        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addHeart), userInfo: nil, repeats: true)
     }
     
     @objc func addObject(){
         /*let ship = SpaceShip()
          ship.loadModal()*/
         
-        var xPos:Float, yPos:Float, zPos:Float
-        //repeat {
-        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
-        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
-        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
-        //} while node(xPos, yPos, zPos) < 6
+        if speedClicked == false {
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            //repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            //} while node(xPos, yPos, zPos) < 6
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            
+            let sphere = SCNSphere(radius: 0.1)
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "metal.jpg")
+            let edge = SCNMaterial()
+            edge.shininess = 50.0
+            
+            let node = SCNNode(geometry: sphere)
+            node.name = "ball"
+            node.position = position
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            
+            changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
+            
+        }
         
-        let position = SCNVector3Make(xPos, yPos, zPos)
+    }
+    
+    func changeSpeed (xDirection: Float, yDirection: Float, zDirection: Float, node: SCNNode) {
         
-        let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = UIImage(named: "metal.jpg")
-        let edge = SCNMaterial()
-        edge.shininess = 50.0
-        
-        let node = SCNNode(geometry: sphere)
-        node.name = "ball"
-        node.position = position
-        
-        sceneView.scene.rootNode.addChildNode(node)
-        
-        var randSpeed = SCNVector3(-xPos/5, -yPos/5, -zPos/5)
+        let randSpeed = SCNVector3(xDirection, yDirection, zDirection)
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         node.physicsBody?.isAffectedByGravity = false
         node.physicsBody?.applyForce(randSpeed, asImpulse: true)
-        
-//        if moving == false
-//        {
-//            randSpeed = SCNVector3(0, 0, 0)
-//            node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-//            node.physicsBody?.isAffectedByGravity = true
-//            node.physicsBody?.applyForce(randSpeed, asImpulse: true)
-//            print("stop movement")
-//        }
         
     }
     
     @objc func addPowerUp(){
         /*let ship = SpaceShip()
          ship.loadModal()*/
-        
-        var xPos:Float, yPos:Float, zPos:Float
-        //repeat {
-        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
-        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
-        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
-        //} while node(xPos, yPos, zPos) < 6
-        
-        let position = SCNVector3Make(xPos, yPos, zPos)
-        
-        let chosenNumber = Int(arc4random_uniform(4))
-        let colors = [UIColor.white, UIColor.blue, UIColor.red, UIColor.brown]
-        
-        let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial?.diffuse.contents = colors[chosenNumber]
-        let node = SCNNode(geometry: sphere)
-        
-        if chosenNumber == 0
-        {
-            node.name = "white"
+        if speedClicked == false {
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            //repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            //} while node(xPos, yPos, zPos) < 6
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            
+            let chosenNumber = Int(arc4random_uniform(4))
+            let colors = [UIColor.white, UIColor.blue, UIColor.red, UIColor.brown]
+            
+            let sphere = SCNSphere(radius: 0.1)
+            sphere.firstMaterial?.diffuse.contents = colors[chosenNumber]
+            let node = SCNNode(geometry: sphere)
+            
+            if chosenNumber == 0
+            {
+                node.name = "white"
+            }
+            if chosenNumber == 1
+            {
+                node.name = "blue"
+            }
+            if chosenNumber == 2
+            {
+                node.name = "red"
+            }
+            if chosenNumber == 3
+            {
+                node.name = "brown"
+            }
+            
+            node.position = position
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
+            
         }
-        if chosenNumber == 1
-        {
-            node.name = "blue"
-        }
-        if chosenNumber == 2
-        {
-            node.name = "red"
-        }
-        if chosenNumber == 3
-        {
-            node.name = "brown"
-        }
-        
-        node.position = position
-        
-        sceneView.scene.rootNode.addChildNode(node)
-        
-        let randSpeed = SCNVector3(0, -yPos/5, 0)
-        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        node.physicsBody?.isAffectedByGravity = false
-        node.physicsBody?.applyForce(randSpeed, asImpulse: true)
-        
     }
     
     @objc func addCoin() {
-        var coinGeometry = SCNGeometry()
-        coinGeometry = SCNCylinder(radius:  0.10, height:  0.02)
-        let edge = SCNMaterial()
-        edge.shininess = 50.0
-        edge.reflective.contents = UIImage(named: "coin_reflect.png")!
-        edge.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
-        edge.specular.contents = UIColor.white
         
-        let surface = SCNMaterial()
-        surface.shininess = 50.0
-        surface.reflective.contents = UIImage(named: "coin_reflect.png")!
-        surface.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
-        surface.specular.contents = UIColor.white
-        coinGeometry.materials = [edge, surface, surface]
-        
-        let node = SCNNode(geometry: coinGeometry)
-        node.eulerAngles = SCNVector3(0, 0, CGFloat(0.5 * .pi))
-        node.name = "coin"
-        
-        var xPos:Float, yPos:Float, zPos:Float
-        xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
-        yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
-        zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
-        
-        let position = SCNVector3Make(xPos, yPos, zPos)
-        node.position = position
-        sceneView.scene.rootNode.addChildNode(node)
-        
-        let randSpeed = SCNVector3(0, -yPos/5, 0)
-        
-        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        node.physicsBody?.isAffectedByGravity = false
-        node.physicsBody?.applyForce(randSpeed, asImpulse: true)
-        
-        if yPos == -1.5 {
-            node.removeFromParentNode()
-        }
-        
-        if moving == false {
-            print("y position = " + String(yPos))
-            print("test")
+        if speedClicked == false {
+            
+            var coinGeometry = SCNGeometry()
+            coinGeometry = SCNCylinder(radius:  0.10, height:  0.02)
+            let edge = SCNMaterial()
+            edge.shininess = 50.0
+            edge.reflective.contents = UIImage(named: "coin_reflect.png")!
+            edge.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
+            edge.specular.contents = UIColor.white
+            
+            let surface = SCNMaterial()
+            surface.shininess = 50.0
+            surface.reflective.contents = UIImage(named: "coin_reflect.png")!
+            surface.diffuse.contents = UIColor(red:1.00, green:0.84, blue:0.00, alpha:1.0)
+            surface.specular.contents = UIColor.white
+            coinGeometry.materials = [edge, surface, surface]
+            
+            let node = SCNNode(geometry: coinGeometry)
+            node.eulerAngles = SCNVector3(0, 0, CGFloat(0.5 * .pi))
+            node.name = "coin"
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            node.position = position
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
+            
+            /*if yPos == -1.5 {
+             node.removeFromParentNode()
+             }*/
         }
     }
     
@@ -417,60 +424,74 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 let node = hitObject.node
                 
                 if node.name == "coin" {
-                    moving = false
                     self.playSoundEffect(ofType: .coin)
                     node.removeFromParentNode()
-                    if powerUpButton1.titleLabel!.text == "Power Up 1" {
-                        powerUpButton1.titleLabel!.text = "+5 Points"
-                        powerUpButton2.titleLabel!.text = "+5 Points"
-                    }
-                    else if (powerUpButton2.titleLabel!.text != "Power Up 2" &&
-                        powerUpButton1.titleLabel!.text == "+5 Points") {
-                        powerUpButton1.titleLabel!.text = "+5 Points"
-                        powerUpButton2.titleLabel!.text = "+5 Points"
-                    }
-                    else if (powerUpButton3.titleLabel!.text == "                    " && powerUpButton1.titleLabel!.text == "+5 Points" && powerUpButton2.titleLabel!.text == "+5 Points") {
-                        powerUpButton1.titleLabel!.text = "+5 Points"
-                        powerUpButton2.titleLabel!.text = "+5 Points"
-                        powerUpButton3.titleLabel!.text = "+5 Points"
-                    }
+                    
                 }
                 
-                //design as a heart
+                // user is invulnerable for 10 seconds
                 if node.name == "blue" {
                     self.playSoundEffect(ofType: .torpedo)
+                    isInvulnerable = true
                     node.removeFromParentNode()
-                    if powerUpButton1.titleLabel!.text == "                    " {
-                        powerUpButton1.titleLabel!.text = "Life"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                        self.isInvulnerable = false
                     }
-                    else if powerUpButton2.titleLabel!.text == "                    " {
-                        powerUpButton2.titleLabel!.text = "Life"
-                    }
-                    else if powerUpButton3.titleLabel!.text == "                    " && powerUpButton2.titleLabel!.text != "                    " {
-                        powerUpButton1.titleLabel!.text = "Life"
-                    }
-                    else {
-                        print("No room for power ups")
-                    }
+                    
                 }
                 
-                //slow down balls - design as a clock
+                // adds 1 life, design as a heart
+                if node.name == "red" {
+                    self.playSoundEffect(ofType: .torpedo)
+                    lifeValue += 1
+                    livesField.text = String(lifeValue)
+                    node.removeFromParentNode()
+                    
+                }
+                
+                //freezes game for 10 seconds - design as a clock
                 if node.name == "brown" {
                     self.playSoundEffect(ofType: .clock)
                     node.removeFromParentNode()
+                    speedClicked = true
+                    for n in sceneView.scene.rootNode.childNodes {
+                        
+                        changeSpeed(xDirection: 0, yDirection: 0, zDirection: 0, node: n)
+                        
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                        self.speedClicked = false
+                        for n in self.sceneView.scene.rootNode.childNodes {
+                            if n.name == "ball" {
+                                
+                                self.changeSpeed(xDirection: -n.position.x/5, yDirection: -n.position.y/5, zDirection: -n.position.z/5, node: n)
+                                
+                            }
+                            
+                        }
+                        print("freeze over")
+                    }
                 }
                 
-                //double points - design as an X
+                //double points for 10 seconds- design as an X
                 if node.name == "white" {
                     self.playSoundEffect(ofType: .double_points)
-                    scoreValue += scoreValue*2
-                    scoreField.text = String(scoreValue)
+                    doublePoints = true
                     node.removeFromParentNode()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                        self.doublePoints = false
+                    }
+                    /*scoreValue += scoreValue*2
+                     scoreField.text = String(scoreValue)*/
+                    
                 }
                 
                 if node.name == "ball" {
                     self.playSoundEffect(ofType: .collision)
                     scoreValue += 15
+                    if doublePoints {
+                        scoreValue += 15
+                    }
                     scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
                     //moving = false
@@ -478,7 +499,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
     }
-
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -537,3 +559,4 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
 }
+
