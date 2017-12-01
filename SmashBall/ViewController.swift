@@ -72,9 +72,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 14.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
     }
     
@@ -155,7 +155,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
         
-        if minutes == 30 {
+        if lifeValue == 0 {
             timer.invalidate()
             
             let blur = UIBlurEffect(style: .light)
@@ -425,6 +425,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 if node.name == "coin" {
                     self.playSoundEffect(ofType: .coin)
+                    scoreValue += 30
+                    if doublePoints {
+                        scoreValue += 30
+                    }
+                    scoreField.text = String(scoreValue)
                     node.removeFromParentNode()
                     
                 }

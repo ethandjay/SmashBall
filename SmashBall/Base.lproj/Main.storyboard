@@ -65,43 +65,9 @@
                             </stackView>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Adi-Mw-Iv8">
                                 <rect key="frame" x="0.0" y="619" width="375" height="48"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xcY-VA-aIx">
-                                        <rect key="frame" x="-0.5" y="5" width="375" height="38"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWO-bg-xIY">
-                                                <rect key="frame" x="0.0" y="0.0" width="125" height="38"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <state key="normal" title="Power Up 1"/>
-                                                <connections>
-                                                    <action selector="powerUp1:" destination="BV1-FR-VrT" eventType="touchUpInside" id="wKF-AC-hIR"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBV-WV-RT2">
-                                                <rect key="frame" x="125" y="0.0" width="125" height="38"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <state key="normal" title="Power Up 2"/>
-                                                <connections>
-                                                    <action selector="powerUp2:" destination="BV1-FR-VrT" eventType="touchUpInside" id="xfr-WL-RP0"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77q-lu-Mzh">
-                                                <rect key="frame" x="250" y="0.0" width="125" height="38"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                <state key="normal" title="Power Up 3"/>
-                                                <connections>
-                                                    <action selector="powerUp3:" destination="BV1-FR-VrT" eventType="touchUpInside" id="1zu-4g-sYg"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="D9n-Cm-dDB"/>
-                                    <constraint firstItem="xcY-VA-aIx" firstAttribute="centerY" secondItem="Adi-Mw-Iv8" secondAttribute="centerY" id="VF6-k5-5Aw"/>
-                                    <constraint firstItem="xcY-VA-aIx" firstAttribute="centerX" secondItem="Adi-Mw-Iv8" secondAttribute="centerX" id="nJ6-ng-ZCU"/>
-                                    <constraint firstItem="xcY-VA-aIx" firstAttribute="width" secondItem="Adi-Mw-Iv8" secondAttribute="width" id="z5q-IE-7HW"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SmashBall" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JlC-yM-BWZ">
@@ -222,9 +188,6 @@
                         <outlet property="nameField" destination="ieq-Mu-JP3" id="sPW-Vo-noD"/>
                         <outlet property="nameLabel" destination="Vcz-9q-IaV" id="Iyq-Mk-82l"/>
                         <outlet property="playButton" destination="2qX-aQ-V5R" id="mf1-L1-lLI"/>
-                        <outlet property="powerUpButton1" destination="WWO-bg-xIY" id="1rB-TB-DJ3"/>
-                        <outlet property="powerUpButton2" destination="xBV-WV-RT2" id="q3k-6u-bOv"/>
-                        <outlet property="powerUpButton3" destination="77q-lu-Mzh" id="xnD-ej-dHG"/>
                         <outlet property="sceneView" destination="ra8-uY-fNE" id="wIP-jq-RHb"/>
                         <outlet property="scoreField" destination="jnk-Vn-dAK" id="E06-e2-2DN"/>
                         <outlet property="scrollView" destination="K1C-u1-2IY" id="77t-7X-1Tc"/>
