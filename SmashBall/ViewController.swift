@@ -15,6 +15,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var alertPowerUp: UILabel!
     @IBOutlet weak var highScoreButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var nameField: UITextField!
@@ -48,6 +49,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var doublePoints = false
     var isInvulnerable = false
     
+    
     var blurView: UIVisualEffectView?
     
     
@@ -67,12 +69,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         nameLabel.isHidden = true
         submitButton.isHidden = true
         highScoreButton.isHidden = true
+        alertPowerUp.isHidden = true
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
         
         Timer.scheduledTimer(timeInterval: 14.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
@@ -80,6 +83,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scoreValue = 0
+        lifeValue = 10
+        timeValue = 0
+        minutes = 0
+        seconds = 0
+        
+        speedClicked = false
+        doublePoints = false
+        isInvulnerable = false
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -182,6 +195,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             nameLabel.isHidden = false
             submitButton.isHidden = false
             
+            alertPowerUp.isHidden = true
+            playButton.isHidden = true
+            highScoreButton.isHidden = true
+            
             finalScoreField.text = String(scoreValue)
             
             if minutes < 10 {
@@ -246,12 +263,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func submitAction(_ sender: Any) {
-        view.addSubview(blurView!)
+        /*view.addSubview(blurView!)
         view.bringSubview(toFront: blurView!)
         view.bringSubview(toFront: titleLabel)
         view.bringSubview(toFront: playButton)
         view.bringSubview(toFront: highScoreButton)
         
+        
+        highScoreButton.isHidden = false
         blurView!.isHidden = false
         titleLabel.isHidden = false
         playButton.isHidden = false
@@ -263,7 +282,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         nameField.isHidden = true
         nameLabel.isHidden = true
         submitButton.isHidden = true
-        highScoreButton.isHidden = false
+        highScoreButton.isHidden = false*/
+        
+        self.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -340,6 +361,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let sphere = SCNSphere(radius: 0.1)
             sphere.firstMaterial?.diffuse.contents = colors[chosenNumber]
+            
             let node = SCNNode(geometry: sphere)
             
             if chosenNumber == 0
@@ -439,8 +461,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     self.playSoundEffect(ofType: .torpedo)
                     isInvulnerable = true
                     node.removeFromParentNode()
+                    alertPowerUp.text = "Invulnerable!"
+                    alertPowerUp.isHidden = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
                         self.isInvulnerable = false
+                        self.alertPowerUp.isHidden = true
                     }
                     
                 }
@@ -459,6 +484,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     self.playSoundEffect(ofType: .clock)
                     node.removeFromParentNode()
                     speedClicked = true
+                    alertPowerUp.text = "Freezed!"
+                    alertPowerUp.isHidden = false
                     for n in sceneView.scene.rootNode.childNodes {
                         
                         changeSpeed(xDirection: 0, yDirection: 0, zDirection: 0, node: n)
@@ -474,6 +501,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                             }
                             
                         }
+                        self.alertPowerUp.isHidden = true
                         print("freeze over")
                     }
                 }
@@ -482,9 +510,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 if node.name == "white" {
                     self.playSoundEffect(ofType: .double_points)
                     doublePoints = true
+                    alertPowerUp.text = "Points x2!"
+                    alertPowerUp.isHidden = false
                     node.removeFromParentNode()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
                         self.doublePoints = false
+                        self.alertPowerUp.isHidden = true
                     }
                     /*scoreValue += scoreValue*2
                      scoreField.text = String(scoreValue)*/

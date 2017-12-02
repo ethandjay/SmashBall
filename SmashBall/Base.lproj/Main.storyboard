@@ -155,6 +155,13 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kO-Pb-C7r">
+                                <rect key="frame" x="246" y="76" width="113" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -178,6 +185,7 @@
                         <viewLayoutGuide key="safeArea" id="tVk-Hz-Tnr"/>
                     </view>
                     <connections>
+                        <outlet property="alertPowerUp" destination="0kO-Pb-C7r" id="1PH-Ct-CAX"/>
                         <outlet property="finalScoreField" destination="695-0u-hGC" id="qKf-X8-dKI"/>
                         <outlet property="finalScoreLabel" destination="RV5-GM-HrG" id="DH9-5l-4ZO"/>
                         <outlet property="finalTimeField" destination="LCE-6j-ID5" id="jIV-Gg-OjF"/>
