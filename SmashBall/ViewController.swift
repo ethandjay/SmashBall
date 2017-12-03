@@ -147,6 +147,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         view.bringSubview(toFront: highScoreButton)
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc func counter() {
         
         updatePosition()
@@ -193,6 +197,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             view.bringSubview(toFront: nameField)
             view.bringSubview(toFront: nameLabel)
             view.bringSubview(toFront: submitButton)
+            
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            view.addGestureRecognizer(tap)
             
             gameOverLabel.isHidden = false
             finalTimeLabel.isHidden = false
