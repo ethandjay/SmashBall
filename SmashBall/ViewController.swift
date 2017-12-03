@@ -45,10 +45,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var minutes: Int = 0
     var seconds: Int = 0
     
+    var newTimer = Timer()
+    var newestTimer = Timer()
+    var newSeconds: Int = 11
+    
     var speedClicked = false
     var doublePoints = false
     var isInvulnerable = false
-    
     
     var blurView: UIVisualEffectView?
     
@@ -75,9 +78,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(addObject), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(addPowerUp), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 14.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addLife), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addInvincible), userInfo: nil, repeats: true)
+        
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addFreeze), userInfo: nil, repeats: true)
         
     }
     
@@ -327,7 +334,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             sceneView.scene.rootNode.addChildNode(node)
             
             
-            changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
+            if seconds > 0 && seconds < 10 {
+                changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
+                print(seconds)
+            }
+            if seconds >= 10 && seconds <= 20 {
+                changeSpeed(xDirection: -xPos/3, yDirection: -yPos/3, zDirection: -zPos/3, node: node)
+                print(seconds)
+            }
+            if seconds > 20 && seconds <= 30 {
+                changeSpeed(xDirection: -xPos/1, yDirection: -yPos/1, zDirection: -zPos/1, node: node)
+                print(seconds)
+            }
             
         }
         
@@ -342,9 +360,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
-    @objc func addPowerUp(){
-        /*let ship = SpaceShip()
-         ship.loadModal()*/
+    @objc func addLife() {
+        
         if speedClicked == false {
             
             var xPos:Float, yPos:Float, zPos:Float
@@ -356,30 +373,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let position = SCNVector3Make(xPos, yPos, zPos)
             
-            let chosenNumber = Int(arc4random_uniform(4))
-            let colors = [UIColor.white, UIColor.blue, UIColor.red, UIColor.brown]
-            
             let sphere = SCNSphere(radius: 0.1)
-            sphere.firstMaterial?.diffuse.contents = colors[chosenNumber]
-            
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "life3.jpg")
             let node = SCNNode(geometry: sphere)
-            
-            if chosenNumber == 0
-            {
-                node.name = "white"
-            }
-            if chosenNumber == 1
-            {
-                node.name = "blue"
-            }
-            if chosenNumber == 2
-            {
-                node.name = "red"
-            }
-            if chosenNumber == 3
-            {
-                node.name = "brown"
-            }
+            node.name = "life"
             
             node.position = position
             
@@ -388,6 +385,89 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
             
         }
+    }
+    
+    @objc func addInvincible() {
+        
+        if speedClicked == false {
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            //repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            //} while node(xPos, yPos, zPos) < 6
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            
+            let sphere = SCNSphere(radius: 0.1)
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "invincible.jpg")
+            let node = SCNNode(geometry: sphere)
+            node.name = "invincible"
+            
+            node.position = position
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
+            
+        }
+    }
+    
+    @objc func addFreeze() {
+        
+        if speedClicked == false {
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            //repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            //} while node(xPos, yPos, zPos) < 6
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            
+            let sphere = SCNSphere(radius: 0.1)
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "freeze2.jpg")
+            let node = SCNNode(geometry: sphere)
+            node.name = "freeze"
+            
+            node.position = position
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
+            
+        }
+        
+    }
+    
+    @objc func addDoublePoints() {
+        
+        if speedClicked == false {
+            
+            var xPos:Float, yPos:Float, zPos:Float
+            //repeat {
+            xPos = randomPosition(lowerBound: -10.0 , upperBound: 10.0)
+            yPos = randomPosition(lowerBound: 1.5, upperBound: 1.5)
+            zPos = randomPosition(lowerBound: -6.0, upperBound: 6.0)
+            //} while node(xPos, yPos, zPos) < 6
+            
+            let position = SCNVector3Make(xPos, yPos, zPos)
+            
+            let sphere = SCNSphere(radius: 0.1)
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "2xpoints.jpg")
+            let node = SCNNode(geometry: sphere)
+            node.name = "double"
+            
+            node.position = position
+            
+            sceneView.scene.rootNode.addChildNode(node)
+            
+            changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
+            
+        }
+        
     }
     
     @objc func addCoin() {
@@ -457,11 +537,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 
                 // user is invulnerable for 10 seconds
-                if node.name == "blue" {
+                if node.name == "invincible" {
                     self.playSoundEffect(ofType: .torpedo)
                     isInvulnerable = true
                     node.removeFromParentNode()
-                    alertPowerUp.text = "Invulnerable!"
+                    alertPowerUp.text = "Invincible!"
                     alertPowerUp.isHidden = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
                         self.isInvulnerable = false
@@ -470,8 +550,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     
                 }
                 
-                // adds 1 life, design as a heart
-                if node.name == "red" {
+                // adds 1 life
+                if node.name == "life" {
                     self.playSoundEffect(ofType: .torpedo)
                     lifeValue += 1
                     livesField.text = String(lifeValue)
@@ -480,7 +560,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 
                 //freezes game for 10 seconds - design as a clock
-                if node.name == "brown" {
+                if node.name == "freeze" {
                     self.playSoundEffect(ofType: .clock)
                     node.removeFromParentNode()
                     speedClicked = true
@@ -507,7 +587,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 }
                 
                 //double points for 10 seconds- design as an X
-                if node.name == "white" {
+                if node.name == "double" {
                     self.playSoundEffect(ofType: .double_points)
                     doublePoints = true
                     alertPowerUp.text = "Points x2!"
