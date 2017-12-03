@@ -15,6 +15,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var alertPowerUp: UILabel!
     @IBOutlet weak var highScoreButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
@@ -179,7 +180,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
         
-        if lifeValue == 0 {
+        if livesField.text == String(0) {
             timer.invalidate()
             
             let blur = UIBlurEffect(style: .light)
@@ -340,18 +341,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             sceneView.scene.rootNode.addChildNode(node)
             
-            
             if seconds > 0 && seconds < 10 {
                 changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
-                print(seconds)
             }
-            if seconds >= 10 && seconds <= 20 {
+            if seconds >= 10 && seconds <= 15 {
+                changeSpeed(xDirection: -xPos/4, yDirection: -yPos/4, zDirection: -zPos/4, node: node)
+            }
+            if seconds > 15 && seconds <= 20 {
                 changeSpeed(xDirection: -xPos/3, yDirection: -yPos/3, zDirection: -zPos/3, node: node)
-                print(seconds)
             }
-            if seconds > 20 && seconds <= 30 {
+            if seconds > 20 && seconds <= 40 {
+                changeSpeed(xDirection: -xPos/2, yDirection: -yPos/2, zDirection: -zPos/2, node: node)
+            }
+            if seconds > 40 {
                 changeSpeed(xDirection: -xPos/1, yDirection: -yPos/1, zDirection: -zPos/1, node: node)
-                print(seconds)
             }
             
         }
@@ -381,7 +384,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let position = SCNVector3Make(xPos, yPos, zPos)
             
             let sphere = SCNSphere(radius: 0.1)
-            sphere.firstMaterial?.diffuse.contents = UIImage(named: "life3.jpg")
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "life2.jpg")
             let node = SCNNode(geometry: sphere)
             node.name = "life"
             
