@@ -23,6 +23,10 @@
 		FFA67C591FC9DF6A00FB765D /* torpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FFA67C581FC9DF6A00FB765D /* torpedo.mp3 */; };
 		FFA67C5B1FC9E12900FB765D /* clock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FFA67C5A1FC9E12900FB765D /* clock.mp3 */; };
 		FFA67C5D1FC9E15C00FB765D /* double_points.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FFA67C5C1FC9E15C00FB765D /* double_points.mp3 */; };
+		FFDE5C0C1FD4B06E007105B3 /* invincible.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FFDE5C081FD4B06D007105B3 /* invincible.jpg */; };
+		FFDE5C0D1FD4B06E007105B3 /* freeze2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FFDE5C091FD4B06D007105B3 /* freeze2.jpg */; };
+		FFDE5C0E1FD4B06E007105B3 /* 2xpoints.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FFDE5C0A1FD4B06D007105B3 /* 2xpoints.jpg */; };
+		FFDE5C0F1FD4B06E007105B3 /* life2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FFDE5C0B1FD4B06D007105B3 /* life2.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +69,10 @@
 		FFA67C581FC9DF6A00FB765D /* torpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = torpedo.mp3; sourceTree = "<group>"; };
 		FFA67C5A1FC9E12900FB765D /* clock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clock.mp3; sourceTree = "<group>"; };
 		FFA67C5C1FC9E15C00FB765D /* double_points.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = double_points.mp3; sourceTree = "<group>"; };
+		FFDE5C081FD4B06D007105B3 /* invincible.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invincible.jpg; sourceTree = "<group>"; };
+		FFDE5C091FD4B06D007105B3 /* freeze2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = freeze2.jpg; sourceTree = "<group>"; };
+		FFDE5C0A1FD4B06D007105B3 /* 2xpoints.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2xpoints.jpg; sourceTree = "<group>"; };
+		FFDE5C0B1FD4B06D007105B3 /* life2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = life2.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +128,10 @@
 				F5CB6F321FBC0CD500B27B0D /* ViewController.swift */,
 				F5CB6F341FBC0CD500B27B0D /* Main.storyboard */,
 				F6818FDA1FBD3D6E00D67377 /* metal.jpg */,
+				FFDE5C0A1FD4B06D007105B3 /* 2xpoints.jpg */,
+				FFDE5C091FD4B06D007105B3 /* freeze2.jpg */,
+				FFDE5C081FD4B06D007105B3 /* invincible.jpg */,
+				FFDE5C0B1FD4B06D007105B3 /* life2.jpg */,
 				FFA67C561FC9D72600FB765D /* coin.mp3 */,
 				FFA67C541FC9D66400FB765D /* collision.mp3 */,
 				FFA67C5A1FC9E12900FB765D /* clock.mp3 */,
@@ -262,14 +274,18 @@
 				FFA67C591FC9DF6A00FB765D /* torpedo.mp3 in Resources */,
 				FFA67C5B1FC9E12900FB765D /* clock.mp3 in Resources */,
 				FF638E0D1FC7AACD00EB2A69 /* coin_reflect.png in Resources */,
+				FFDE5C0D1FD4B06E007105B3 /* freeze2.jpg in Resources */,
 				F5CB6F311FBC0CD500B27B0D /* art.scnassets in Resources */,
 				FFA67C571FC9D72600FB765D /* coin.mp3 in Resources */,
 				F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */,
 				F5CB6F3B1FBC0CD500B27B0D /* LaunchScreen.storyboard in Resources */,
 				F5CB6F381FBC0CD500B27B0D /* Assets.xcassets in Resources */,
 				F6E6DCE01FC23A98007BE2F4 /* heart.png in Resources */,
+				FFDE5C0F1FD4B06E007105B3 /* life2.jpg in Resources */,
 				F5CB6F361FBC0CD500B27B0D /* Main.storyboard in Resources */,
 				FFA67C5D1FC9E15C00FB765D /* double_points.mp3 in Resources */,
+				FFDE5C0E1FD4B06E007105B3 /* 2xpoints.jpg in Resources */,
+				FFDE5C0C1FD4B06E007105B3 /* invincible.jpg in Resources */,
 				FFA67C551FC9D66400FB765D /* collision.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,10 +479,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RV5YH544TT;
+				DEVELOPMENT_TEAM = SUYQ3VEZ59;
 				INFOPLIST_FILE = SmashBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vungo.SmashBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmoraes1.SmashBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -478,10 +494,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RV5YH544TT;
+				DEVELOPMENT_TEAM = SUYQ3VEZ59;
 				INFOPLIST_FILE = SmashBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vungo.SmashBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmoraes1.SmashBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
