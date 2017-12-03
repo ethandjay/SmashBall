@@ -180,7 +180,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             }
         }
         
-        if livesField.text == String(0) {
+        if lifeValue <= 0 {
             timer.invalidate()
             
             let blur = UIBlurEffect(style: .light)
