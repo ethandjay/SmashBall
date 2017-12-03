@@ -149,7 +149,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kO-Pb-C7r">
-                                <rect key="frame" x="96" y="76" width="185" height="36"/>
+                                <rect key="frame" x="96" y="76" width="170" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -160,6 +160,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.97503851969999999" green="1" blue="0.98719161509999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fx-CC-Th9" userLabel="Timer Label">
+                                <rect key="frame" x="261" y="82" width="82" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" red="0.20088842109999999" green="0.37670376490000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -201,6 +208,7 @@
                         <outlet property="scrollView" destination="K1C-u1-2IY" id="77t-7X-1Tc"/>
                         <outlet property="submitButton" destination="tej-K0-DGA" id="n1q-Wq-2NE"/>
                         <outlet property="timeField" destination="cBf-ag-ruU" id="bYH-ty-HBs"/>
+                        <outlet property="timerLabel" destination="6Fx-CC-Th9" id="JUS-MW-cYA"/>
                         <outlet property="titleLabel" destination="JlC-yM-BWZ" id="Otb-qd-rJd"/>
                     </connections>
                 </viewController>
