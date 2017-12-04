@@ -525,7 +525,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.name = "ball"
             node.position = position
             
-            changeSpeed(xDirection: xPos/speed, yDirection: yPos/speed, zDirection: zPos/speed, node: node)
+            changeSpeed(xDirection: -xPos/speed, yDirection: -yPos/speed, zDirection: -zPos/speed, node: node)
             
             sceneView.scene.rootNode.addChildNode(node)
             
