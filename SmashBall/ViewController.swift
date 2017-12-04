@@ -357,6 +357,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 if distanceToUser(xPos: n.position.x, yPos: n.position.y, zPos: n.position.z) <= 0.5 {
                     n.removeFromParentNode()
                     if isInvulnerable == false {
+                        self.playSoundEffect(ofType: .ball_hit)
                         lifeValue -= 1
                         livesField.text = String(lifeValue)
                     }
@@ -861,6 +862,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         case torpedo = "torpedo"
         case clock = "clock"
         case double_points = "double_points"
+        case ball_hit = "ball_hit"
     }
     
 }
