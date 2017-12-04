@@ -45,6 +45,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var timer = Timer()
     var minutes: Int = 0
     var seconds: Int = 0
+    var speed: Float = 5.0
     
     var newTimer = Timer()
     var newestTimer = Timer()
@@ -81,12 +82,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addLife), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerup), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addInvincible), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addFreeze), userInfo: nil, repeats: true)
-        
+    }
+    
+    @objc func addPowerup() {
+        let rand = arc4random_uniform(4)
+        if rand == 0 {
+            addLife()
+        } else if rand == 1{
+            addInvincible()
+        } else if rand == 2 {
+            addFreeze()
+        } else if rand == 3 {
+            addDoublePoints()
+        }
     }
     
     override func viewDidLoad() {
@@ -236,18 +247,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func updatePosition() {
+        
+        /*if seconds > 0 && seconds < 5 {
+         speed = 5
+         
+         }
+         if seconds >= 5 && seconds <= 10 {
+         speed = 4
+         
+         }
+         if seconds > 10 && seconds <= 15 {
+         speed = 3
+         
+         }
+         if seconds > 15 && seconds <= 20 {
+         speed = 2
+         
+         }
+         if seconds > 40 {
+         speed = 1
+         
+         }*/
+        
         if speedClicked == false {
             for n in self.sceneView.scene.rootNode.childNodes {
                 if n.name == "ball" {
                     
-                    n.position.x = n.position.x - n.position.x/5
-                    n.position.y = n.position.y - n.position.y/5
-                    n.position.z = n.position.z - n.position.z/5
-                    self.changeSpeed(xDirection: -n.position.x/5, yDirection: -n.position.y/5, zDirection: -n.position.z/5, node: n)
+                    n.position.x = n.position.x - n.position.x/(speed)
+                    n.position.y = n.position.y - n.position.y/(speed)
+                    n.position.z = n.position.z - n.position.z/(speed)
+                    self.changeSpeed(xDirection: -n.position.x/(speed), yDirection: -n.position.y/(speed), zDirection: -n.position.z/(speed), node: n)
                     
                 } else {
-                    n.position.y = n.position.y - n.position.y/5
-                    self.changeSpeed(xDirection: 0, yDirection: -n.position.y/5, zDirection: 0, node: n)
+                    n.position.y = n.position.y - n.position.y/speed
+                    self.changeSpeed(xDirection: 0, yDirection: -n.position.y/(5), zDirection: 0, node: n)
                 }
                 
             }
@@ -279,25 +312,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBAction func submitAction(_ sender: Any) {
         /*view.addSubview(blurView!)
-        view.bringSubview(toFront: blurView!)
-        view.bringSubview(toFront: titleLabel)
-        view.bringSubview(toFront: playButton)
-        view.bringSubview(toFront: highScoreButton)
-        
-        
-        highScoreButton.isHidden = false
-        blurView!.isHidden = false
-        titleLabel.isHidden = false
-        playButton.isHidden = false
-        gameOverLabel.isHidden = true
-        finalTimeLabel.isHidden = true
-        finalScoreLabel.isHidden = true
-        finalTimeField.isHidden = true
-        finalScoreField.isHidden = true
-        nameField.isHidden = true
-        nameLabel.isHidden = true
-        submitButton.isHidden = true
-        highScoreButton.isHidden = false*/
+         view.bringSubview(toFront: blurView!)
+         view.bringSubview(toFront: titleLabel)
+         view.bringSubview(toFront: playButton)
+         view.bringSubview(toFront: highScoreButton)
+         
+         
+         highScoreButton.isHidden = false
+         blurView!.isHidden = false
+         titleLabel.isHidden = false
+         playButton.isHidden = false
+         gameOverLabel.isHidden = true
+         finalTimeLabel.isHidden = true
+         finalScoreLabel.isHidden = true
+         finalTimeField.isHidden = true
+         finalScoreField.isHidden = true
+         nameField.isHidden = true
+         nameLabel.isHidden = true
+         submitButton.isHidden = true
+         highScoreButton.isHidden = false*/
         
         self.viewDidLoad()
     }
@@ -339,23 +372,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.name = "ball"
             node.position = position
             
+            changeSpeed(xDirection: xPos/speed, yDirection: yPos/speed, zDirection: zPos/speed, node: node)
+            
             sceneView.scene.rootNode.addChildNode(node)
             
-            if seconds > 0 && seconds < 10 {
-                changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
-            }
-            if seconds >= 10 && seconds <= 15 {
-                changeSpeed(xDirection: -xPos/4, yDirection: -yPos/4, zDirection: -zPos/4, node: node)
-            }
-            if seconds > 15 && seconds <= 20 {
-                changeSpeed(xDirection: -xPos/3, yDirection: -yPos/3, zDirection: -zPos/3, node: node)
-            }
-            if seconds > 20 && seconds <= 40 {
-                changeSpeed(xDirection: -xPos/2, yDirection: -yPos/2, zDirection: -zPos/2, node: node)
-            }
-            if seconds > 40 {
-                changeSpeed(xDirection: -xPos/1, yDirection: -yPos/1, zDirection: -zPos/1, node: node)
-            }
+            
             
         }
         
