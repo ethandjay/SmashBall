@@ -38,7 +38,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var finalTimeField: UILabel!
     @IBOutlet weak var finalScoreField: UILabel!
     
-    
     var scoreValue: Int = 0
     var lifeValue: Int = 10
     var timeValue: Int = 0
@@ -50,6 +49,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     var newTimer = Timer()
     var newestTimer = Timer()
+    var lastTimer = Timer()
     var newSeconds: Int = 11
     
     var speedClicked = false
@@ -64,6 +64,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     
     @IBAction func playPressed(_ sender: Any) {
+
         for child in view.subviews {
             child.isHidden = false
             if child.isKind(of: UIVisualEffectView.self) {
@@ -246,6 +247,63 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     finalTimeField.text = String(minutes) + ":" + String(seconds)
                 }
             }
+        }
+    }
+    
+    @objc func doublePointsCounter() {
+        timerLabel.isHidden = false
+        view.bringSubview(toFront: timerLabel)
+        newSeconds -= 1
+        
+        if newSeconds < 10 {
+            timerLabel.text = String(0) + String(0) + ":" + String(0) + String(newSeconds)
+        }
+        else {
+            timerLabel.text = String(0) + String(0) + ":" + String(newSeconds)
+        }
+        
+        if newSeconds == 0 {
+            newTimer.invalidate()
+            timerLabel.isHidden = true
+            newSeconds = 11
+        }
+    }
+    
+    @objc func invincibleCounter() {
+        timerLabel.isHidden = false
+        view.bringSubview(toFront: timerLabel)
+        newSeconds -= 1
+        
+        if newSeconds < 10 {
+            timerLabel.text = String(0) + String(0) + ":" + String(0) + String(newSeconds)
+        }
+        else {
+            timerLabel.text = String(0) + String(0) + ":" + String(newSeconds)
+        }
+        
+        if newSeconds == 0 {
+            newestTimer.invalidate()
+            timerLabel.isHidden = true
+            newSeconds = 11
+        }
+    }
+    
+    @objc func freezeCounter() {
+        timerLabel.isHidden = false
+        view.bringSubview(toFront: timerLabel)
+        newSeconds -= 1
+        
+        if newSeconds < 10 {
+            timerLabel.text = String(0) + String(0) + ":" + String(0) + String(newSeconds)
+        }
+        else {
+            timerLabel.text = String(0) + String(0) + ":" + String(newSeconds)
+        }
+        
+        if newSeconds == 0 {
+            lastTimer.invalidate()
+            timerLabel.isHidden = true
+            newSeconds = 11
         }
     }
     
@@ -435,7 +493,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         blurView!.isHidden = false
         titleLabel.isHidden = false
         playButton.isHidden = false
-        highScoreButton.isHidden = false
+        gameOverLabel.isHidden = true
+        finalTimeLabel.isHidden = true
+        finalScoreLabel.isHidden = true
+        finalTimeField.isHidden = true
+        finalScoreField.isHidden = true
+        nameField.isHidden = true
+        nameLabel.isHidden = true
+        submitButton.isHidden = true
+        highScoreButton.isHidden = false*/
+        
+        self.viewDidLoad()
+        
     }
     
     
@@ -447,9 +516,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Run the view's session
         sceneView.session.run(configuration)
-        
-        
-        //        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addHeart), userInfo: nil, repeats: true)
     }
     
     @objc func addObject(){
@@ -509,7 +575,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let position = SCNVector3Make(xPos, yPos, zPos)
             
             let sphere = SCNSphere(radius: 0.1)
-            sphere.firstMaterial?.diffuse.contents = UIImage(named: "life2.jpg")
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "life.jpg")
             let node = SCNNode(geometry: sphere)
             node.name = "life"
             
@@ -563,7 +629,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let position = SCNVector3Make(xPos, yPos, zPos)
             
             let sphere = SCNSphere(radius: 0.1)
-            sphere.firstMaterial?.diffuse.contents = UIImage(named: "freeze2.jpg")
+            sphere.firstMaterial?.diffuse.contents = UIImage(named: "freeze.jpg")
             let node = SCNNode(geometry: sphere)
             node.name = "freeze"
             
@@ -602,7 +668,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             changeSpeed(xDirection: 0, yDirection: -yPos/5, zDirection: 0, node: node)
             
         }
-        
     }
     
     @objc func addCoin() {
@@ -673,6 +738,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 // user is invulnerable for 10 seconds
                 if node.name == "invincible" {
+                    newestTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.invincibleCounter), userInfo: nil, repeats: true)
+                    self.playSoundEffect(ofType: .torpedo)
                     self.playSoundEffect(ofType: .torpedo)
                     isInvulnerable = true
                     node.removeFromParentNode()
@@ -694,8 +761,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     
                 }
                 
-                //freezes game for 10 seconds - design as a clock
+                //freezes game for 10 seconds
                 if node.name == "freeze" {
+                    lastTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.freezeCounter), userInfo: nil, repeats: true)
                     self.playSoundEffect(ofType: .clock)
                     node.removeFromParentNode()
                     speedClicked = true
@@ -717,12 +785,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                             
                         }
                         self.alertPowerUp.isHidden = true
+                        self.timerLabel.isHidden = true
                         print("freeze over")
                     }
                 }
                 
-                //double points for 10 seconds- design as an X
+                //double points for 10 seconds
                 if node.name == "double" {
+                    newTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.doublePointsCounter), userInfo: nil, repeats: true)
+                    self.playSoundEffect(ofType: .double_points)
                     self.playSoundEffect(ofType: .double_points)
                     doublePoints = true
                     alertPowerUp.text = "Points x2!"
