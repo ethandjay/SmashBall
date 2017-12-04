@@ -31,6 +31,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var livesField: UILabel!
     @IBOutlet weak var scoreField: UILabel!
     @IBOutlet weak var gameOverLabel: UILabel!
+    @IBOutlet weak var noNameLabel: UILabel!
     
     @IBOutlet weak var finalTimeLabel: UILabel!
     @IBOutlet weak var finalScoreLabel: UILabel!
@@ -65,8 +66,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBAction func playPressed(_ sender: Any) {
         for child in view.subviews {
             child.isHidden = false
+            if child.isKind(of: UIVisualEffectView.self) {
+                child.isHidden = true
+            }
         }
-        blurView!.isHidden = true
         titleLabel.isHidden = true
         playButton.isHidden = true
         gameOverLabel.isHidden = true
@@ -79,6 +82,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         submitButton.isHidden = true
         highScoreButton.isHidden = true
         alertPowerUp.isHidden = true
+        noNameLabel.isHidden = true
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
         
@@ -87,7 +91,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerup), userInfo: nil, repeats: true)
-        
         
     }
     
@@ -151,6 +154,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         nameField.isHidden = true
         nameLabel.isHidden = true
         submitButton.isHidden = true
+        noNameLabel.isHidden = true
         
         let blur = UIBlurEffect(style: .light)
         blurView = UIVisualEffectView(effect: blur)
@@ -198,12 +202,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if lifeValue <= 0 {
             timer.invalidate()
             
-            let blur = UIBlurEffect(style: .light)
-            blurView = UIVisualEffectView(effect: blur)
-            blurView!.frame = view.bounds
-            view.addSubview(blurView!)
-            view.addSubview(scrollView!)
-            view.bringSubview(toFront: blurView!)
+            blurView!.isHidden = false
             view.bringSubview(toFront: gameOverLabel)
             view.bringSubview(toFront: finalTimeLabel)
             view.bringSubview(toFront: finalScoreLabel)
@@ -336,6 +335,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
          submitButton.isHidden = true
          highScoreButton.isHidden = false*/
         
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let path = URL(fileURLWithPath: paths[0]).appendingPathComponent("highScores.plist").path
+        
+        let dict = NSMutableDictionary(contentsOfFile: path)
+
+        if nameField.text != "" {
+            dict?.setObject(Int(scoreField.text!)!, forKey: nameField.text! as NSCopying)
+            noNameLabel.isHidden = true
+        } else {
+            noNameLabel.isHidden = false
+            return
+        }
+
+        print(dict)
+        print(path)
+        print(dict!.write(toFile: path, atomically: false))
+        
+        
         self.viewDidLoad()
     }
     
@@ -365,19 +382,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         scoresView.numberOfLines = 100
         
         var dict: [String: Any] = [:]
-        if let path = Bundle.main.path(forResource: "highScores", ofType: "plist") {
-            dict = NSDictionary(contentsOfFile: path) as! [String: Any]
-        }
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let path = URL(fileURLWithPath: paths[0]).appendingPathComponent("highScores.plist").path
+        print(path)
+        dict = NSDictionary(contentsOfFile: path) as! [String: Any]
+        print(dict)
         
         var scores: [(String, Int)] = []
         dict.forEach {
             let name = $0.key
-            let score = $0.value as! Int
+            let score = $0.value as? Int ?? 0
             scores.append( (name, score)  )
         }
+        print(scores)
 
         scores.sort(by: { $0.1 > $1.1 })
+        print(scores)
         let finalScores = scores[0..<5]
+        print(finalScores)
         finalScores.forEach {
             scoresView.text!.append("\($0): \($1)\n")
         }
