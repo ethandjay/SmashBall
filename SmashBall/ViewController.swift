@@ -17,7 +17,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var alertPowerUp: UILabel!
-    @IBOutlet weak var highScoreButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var nameLabel: UILabel!
@@ -26,6 +25,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var highScoreButton: UIButton!
     
     @IBOutlet weak var timeField: UILabel!
     @IBOutlet weak var livesField: UILabel!
@@ -44,6 +44,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var timer = Timer()
     var minutes: Int = 0
     var seconds: Int = 0
+    var speed: Float = 5.0
     
     var newTimer = Timer()
     var newestTimer = Timer()
@@ -55,6 +56,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var isInvulnerable = false
     
     var blurView: UIVisualEffectView?
+    
+    var titleView: UILabel = UILabel()
+    var scoresView: UILabel = UILabel()
+    var backButton: UIButton = UIButton()
     
     
     @IBAction func playPressed(_ sender: Any) {
@@ -83,12 +88,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addCoin), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addLife), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addPowerup), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addInvincible), userInfo: nil, repeats: true)
         
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(addFreeze), userInfo: nil, repeats: true)
-        
+    }
+    
+    @objc func addPowerup() {
+        let rand = arc4random_uniform(4)
+        if rand == 0 {
+            addLife()
+        } else if rand == 1{
+            addInvincible()
+        } else if rand == 2 {
+            addFreeze()
+        } else if rand == 3 {
+            addDoublePoints()
+        }
     }
     
     override func viewDidLoad() {
@@ -294,18 +309,40 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func updatePosition() {
+        
+        /*if seconds > 0 && seconds < 5 {
+         speed = 5
+         
+         }
+         if seconds >= 5 && seconds <= 10 {
+         speed = 4
+         
+         }
+         if seconds > 10 && seconds <= 15 {
+         speed = 3
+         
+         }
+         if seconds > 15 && seconds <= 20 {
+         speed = 2
+         
+         }
+         if seconds > 40 {
+         speed = 1
+         
+         }*/
+        
         if speedClicked == false {
             for n in self.sceneView.scene.rootNode.childNodes {
                 if n.name == "ball" {
                     
-                    n.position.x = n.position.x - n.position.x/5
-                    n.position.y = n.position.y - n.position.y/5
-                    n.position.z = n.position.z - n.position.z/5
-                    self.changeSpeed(xDirection: -n.position.x/5, yDirection: -n.position.y/5, zDirection: -n.position.z/5, node: n)
+                    n.position.x = n.position.x - n.position.x/(speed)
+                    n.position.y = n.position.y - n.position.y/(speed)
+                    n.position.z = n.position.z - n.position.z/(speed)
+                    self.changeSpeed(xDirection: -n.position.x/(speed), yDirection: -n.position.y/(speed), zDirection: -n.position.z/(speed), node: n)
                     
                 } else {
-                    n.position.y = n.position.y - n.position.y/5
-                    self.changeSpeed(xDirection: 0, yDirection: -n.position.y/5, zDirection: 0, node: n)
+                    n.position.y = n.position.y - n.position.y/speed
+                    self.changeSpeed(xDirection: 0, yDirection: -n.position.y/(5), zDirection: 0, node: n)
                 }
                 
             }
@@ -337,13 +374,100 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBAction func submitAction(_ sender: Any) {
         /*view.addSubview(blurView!)
-        view.bringSubview(toFront: blurView!)
-        view.bringSubview(toFront: titleLabel)
-        view.bringSubview(toFront: playButton)
-        view.bringSubview(toFront: highScoreButton)
+         view.bringSubview(toFront: blurView!)
+         view.bringSubview(toFront: titleLabel)
+         view.bringSubview(toFront: playButton)
+         view.bringSubview(toFront: highScoreButton)
+         
+         
+         highScoreButton.isHidden = false
+         blurView!.isHidden = false
+         titleLabel.isHidden = false
+         playButton.isHidden = false
+         gameOverLabel.isHidden = true
+         finalTimeLabel.isHidden = true
+         finalScoreLabel.isHidden = true
+         finalTimeField.isHidden = true
+         finalScoreField.isHidden = true
+         nameField.isHidden = true
+         nameLabel.isHidden = true
+         submitButton.isHidden = true
+         highScoreButton.isHidden = false*/
+        
+        self.viewDidLoad()
+    }
+    
+    @IBAction func loadHighScores(_ sender: Any) {
+        for child in view.subviews {
+            child.isHidden = true
+        }
+        blurView!.isHidden = false
+        sceneView.isHidden = false
+        
+        let titleFrame = CGRect(x: 0, y: 20, width: view.frame.size.width, height: 100)
+        titleView = UILabel(frame: titleFrame)
+        titleView.font = UIFont.boldSystemFont(ofSize: 36)
+        titleView.text = "High Scores"
+        titleView.textColor = UIColor.white
+        titleView.center.x = view.center.x
+        titleView.textAlignment = .center
+        view.addSubview(titleView)
+        
+        let scoresFrame = CGRect(x: 0, y: 80, width: view.frame.size.width, height: view.frame.size.height - 200)
+        scoresView = UILabel(frame: scoresFrame)
+        scoresView.font = UIFont.boldSystemFont(ofSize: 20)
+        scoresView.textColor = UIColor.white
+        scoresView.center.x = view.center.x
+        scoresView.textAlignment = .center
+        scoresView.text = ""
+        scoresView.numberOfLines = 100
+        
+        var dict: [String: Any] = [:]
+        if let path = Bundle.main.path(forResource: "highScores", ofType: "plist") {
+            dict = NSDictionary(contentsOfFile: path) as! [String: Any]
+        }
+        
+        var scores: [(String, Int)] = []
+        dict.forEach {
+            let name = $0.key
+            let score = $0.value as! Int
+            scores.append( (name, score)  )
+        }
+
+        scores.sort(by: { $0.1 > $1.1 })
+        let finalScores = scores[0..<5]
+        finalScores.forEach {
+            scoresView.text!.append("\($0): \($1)\n")
+        }
+        
+        view.addSubview(scoresView)
+        
+        let backFrame = CGRect(x: 0, y: 500, width: view.frame.size.width, height: 100)
+        backButton = UIButton(frame: backFrame)
+        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 30)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(UIColor.white, for: .normal)
+        backButton.center.x = view.center.x
+        backButton.titleLabel!.textAlignment = .center
+        
+        backButton.addTarget(self, action: #selector(highScoresBack), for: .touchUpInside)
+        
+        view.addSubview(backButton)
         
         
-        highScoreButton.isHidden = false
+        
+    }
+    
+    @objc func highScoresBack(sender: UIButton!){
+        for child in view.subviews {
+            child.isHidden = true
+        }
+        
+        backButton.removeFromSuperview()
+        scoresView.removeFromSuperview()
+        titleView.removeFromSuperview()
+        
+        sceneView.isHidden = false
         blurView!.isHidden = false
         titleLabel.isHidden = false
         playButton.isHidden = false
@@ -360,6 +484,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.viewDidLoad()
         
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -395,23 +520,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.name = "ball"
             node.position = position
             
+            changeSpeed(xDirection: xPos/speed, yDirection: yPos/speed, zDirection: zPos/speed, node: node)
+            
             sceneView.scene.rootNode.addChildNode(node)
             
-            if seconds > 0 && seconds < 10 {
-                changeSpeed(xDirection: -xPos/5, yDirection: -yPos/5, zDirection: -zPos/5, node: node)
-            }
-            if seconds >= 10 && seconds <= 15 {
-                changeSpeed(xDirection: -xPos/4, yDirection: -yPos/4, zDirection: -zPos/4, node: node)
-            }
-            if seconds > 15 && seconds <= 20 {
-                changeSpeed(xDirection: -xPos/3, yDirection: -yPos/3, zDirection: -zPos/3, node: node)
-            }
-            if seconds > 20 && seconds <= 40 {
-                changeSpeed(xDirection: -xPos/2, yDirection: -yPos/2, zDirection: -zPos/2, node: node)
-            }
-            if seconds > 40 {
-                changeSpeed(xDirection: -xPos/1, yDirection: -yPos/1, zDirection: -zPos/1, node: node)
-            }
+            
             
         }
         

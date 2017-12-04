@@ -133,6 +133,9 @@
                                 <state key="normal" title="High Scores">
                                     <color key="titleColor" red="0.97503851970585542" green="1" blue="0.98719161506629749" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="loadHighScores:" destination="BV1-FR-VrT" eventType="touchUpInside" id="o7G-sd-2b2"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Over!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJx-1R-pqM" userLabel="Game Over Label">
                                 <rect key="frame" x="32" y="132" width="343" height="98"/>
