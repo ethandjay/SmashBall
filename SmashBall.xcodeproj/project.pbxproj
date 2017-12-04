@@ -17,11 +17,11 @@
 		F5CB6F511FBC0CD500B27B0D /* SmashBallUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CB6F501FBC0CD500B27B0D /* SmashBallUITests.swift */; };
 		F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6818FDA1FBD3D6E00D67377 /* metal.jpg */; };
 		F6A58BB91FD4BE4100E927CC /* highScores.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6A58BB81FD4BE4100E927CC /* highScores.plist */; };
+		F6A9FEAA1FD5192700C0DFDB /* 2xpoints.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6A9FEA91FD5192700C0DFDB /* 2xpoints.jpg */; };
+		F6A9FEAE1FD5193600C0DFDB /* life.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6A9FEAB1FD5193600C0DFDB /* life.jpg */; };
+		F6A9FEAF1FD5193600C0DFDB /* invincible.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = F6A9FEAC1FD5193600C0DFDB /* invincible.jpeg */; };
+		F6A9FEB01FD5193600C0DFDB /* freeze.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6A9FEAD1FD5193600C0DFDB /* freeze.jpg */; };
 		F6E6DCE01FC23A98007BE2F4 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F6E6DCDF1FC23A97007BE2F4 /* heart.png */; };
-		FF5979401FD5143700485D2F /* freeze.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF59793C1FD5143600485D2F /* freeze.jpg */; };
-		FF5979411FD5143700485D2F /* 2xpoints.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF59793D1FD5143600485D2F /* 2xpoints.jpg */; };
-		FF5979421FD5143700485D2F /* invincible.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF59793E1FD5143700485D2F /* invincible.jpg */; };
-		FF5979431FD5143700485D2F /* life.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF59793F1FD5143700485D2F /* life.jpg */; };
 		FF5979451FD5144800485D2F /* ball_hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF5979441FD5144700485D2F /* ball_hit.mp3 */; };
 		FF638E0D1FC7AACD00EB2A69 /* coin_reflect.png in Resources */ = {isa = PBXBuildFile; fileRef = FF638E0C1FC7AACD00EB2A69 /* coin_reflect.png */; };
 		FFA67C551FC9D66400FB765D /* collision.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FFA67C541FC9D66400FB765D /* collision.mp3 */; };
@@ -65,11 +65,11 @@
 		F5CB6F521FBC0CD500B27B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6818FDA1FBD3D6E00D67377 /* metal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = metal.jpg; sourceTree = "<group>"; };
 		F6A58BB81FD4BE4100E927CC /* highScores.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = highScores.plist; sourceTree = "<group>"; };
+		F6A9FEA91FD5192700C0DFDB /* 2xpoints.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2xpoints.jpg; sourceTree = "<group>"; };
+		F6A9FEAB1FD5193600C0DFDB /* life.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = life.jpg; sourceTree = "<group>"; };
+		F6A9FEAC1FD5193600C0DFDB /* invincible.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invincible.jpeg; sourceTree = "<group>"; };
+		F6A9FEAD1FD5193600C0DFDB /* freeze.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = freeze.jpg; sourceTree = "<group>"; };
 		F6E6DCDF1FC23A97007BE2F4 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
-		FF59793C1FD5143600485D2F /* freeze.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = freeze.jpg; path = ../../Desktop/freeze.jpg; sourceTree = "<group>"; };
-		FF59793D1FD5143600485D2F /* 2xpoints.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 2xpoints.jpg; path = ../../Desktop/2xpoints.jpg; sourceTree = "<group>"; };
-		FF59793E1FD5143700485D2F /* invincible.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = invincible.jpg; path = ../../Desktop/invincible.jpg; sourceTree = "<group>"; };
-		FF59793F1FD5143700485D2F /* life.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = life.jpg; path = ../../Desktop/life.jpg; sourceTree = "<group>"; };
 		FF5979441FD5144700485D2F /* ball_hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ball_hit.mp3; sourceTree = "<group>"; };
 		FF638E0C1FC7AACD00EB2A69 /* coin_reflect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin_reflect.png; sourceTree = "<group>"; };
 		FFA67C541FC9D66400FB765D /* collision.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = collision.mp3; sourceTree = "<group>"; };
@@ -132,10 +132,10 @@
 				F5CB6F321FBC0CD500B27B0D /* ViewController.swift */,
 				F5CB6F341FBC0CD500B27B0D /* Main.storyboard */,
 				F6818FDA1FBD3D6E00D67377 /* metal.jpg */,
-				FF59793D1FD5143600485D2F /* 2xpoints.jpg */,
-				FF59793C1FD5143600485D2F /* freeze.jpg */,
-				FF59793E1FD5143700485D2F /* invincible.jpg */,
-				FF59793F1FD5143700485D2F /* life.jpg */,
+				F6A9FEA91FD5192700C0DFDB /* 2xpoints.jpg */,
+				F6A9FEAD1FD5193600C0DFDB /* freeze.jpg */,
+				F6A9FEAC1FD5193600C0DFDB /* invincible.jpeg */,
+				F6A9FEAB1FD5193600C0DFDB /* life.jpg */,
 				FFA67C561FC9D72600FB765D /* coin.mp3 */,
 				FFA67C541FC9D66400FB765D /* collision.mp3 */,
 				FFA67C5A1FC9E12900FB765D /* clock.mp3 */,
@@ -277,7 +277,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF5979421FD5143700485D2F /* invincible.jpg in Resources */,
+				F6A9FEB01FD5193600C0DFDB /* freeze.jpg in Resources */,
 				FF5979451FD5144800485D2F /* ball_hit.mp3 in Resources */,
 				FFA67C591FC9DF6A00FB765D /* torpedo.mp3 in Resources */,
 				FFA67C5B1FC9E12900FB765D /* clock.mp3 in Resources */,
@@ -285,14 +285,14 @@
 				F5CB6F311FBC0CD500B27B0D /* art.scnassets in Resources */,
 				FFA67C571FC9D72600FB765D /* coin.mp3 in Resources */,
 				F6A58BB91FD4BE4100E927CC /* highScores.plist in Resources */,
-				FF5979431FD5143700485D2F /* life.jpg in Resources */,
+				F6A9FEAA1FD5192700C0DFDB /* 2xpoints.jpg in Resources */,
 				F6818FDB1FBD3D6F00D67377 /* metal.jpg in Resources */,
+				F6A9FEAF1FD5193600C0DFDB /* invincible.jpeg in Resources */,
+				F6A9FEAE1FD5193600C0DFDB /* life.jpg in Resources */,
 				F5CB6F3B1FBC0CD500B27B0D /* LaunchScreen.storyboard in Resources */,
-				FF5979401FD5143700485D2F /* freeze.jpg in Resources */,
 				F5CB6F381FBC0CD500B27B0D /* Assets.xcassets in Resources */,
 				F6E6DCE01FC23A98007BE2F4 /* heart.png in Resources */,
 				F5CB6F361FBC0CD500B27B0D /* Main.storyboard in Resources */,
-				FF5979411FD5143700485D2F /* 2xpoints.jpg in Resources */,
 				FFA67C5D1FC9E15C00FB765D /* double_points.mp3 in Resources */,
 				FFA67C551FC9D66400FB765D /* collision.mp3 in Resources */,
 			);
