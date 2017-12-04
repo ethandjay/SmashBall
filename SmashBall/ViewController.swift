@@ -71,6 +71,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 child.isHidden = true
             }
         }
+        for child in sceneView.scene.rootNode.childNodes {
+            child.removeFromParentNode()
+        }
         titleLabel.isHidden = true
         playButton.isHidden = true
         gameOverLabel.isHidden = true
@@ -84,6 +87,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         highScoreButton.isHidden = true
         alertPowerUp.isHidden = true
         noNameLabel.isHidden = true
+        timerLabel.isHidden = true
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.counter), userInfo: nil, repeats: true)
         
@@ -204,6 +208,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         if lifeValue <= 0 {
             timer.invalidate()
+            timerLabel.isHidden = true
             
             blurView!.isHidden = false
             view.bringSubview(toFront: gameOverLabel)
