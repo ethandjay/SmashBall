@@ -111,6 +111,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        timer.invalidate()
+        
         scoreValue = 0
         lifeValue = 10
         timeValue = 0
