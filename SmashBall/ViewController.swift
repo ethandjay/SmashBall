@@ -372,26 +372,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @IBAction func submitAction(_ sender: Any) {
-        /*view.addSubview(blurView!)
-         view.bringSubview(toFront: blurView!)
-         view.bringSubview(toFront: titleLabel)
-         view.bringSubview(toFront: playButton)
-         view.bringSubview(toFront: highScoreButton)
-         
-         
-         highScoreButton.isHidden = false
-         blurView!.isHidden = false
-         titleLabel.isHidden = false
-         playButton.isHidden = false
-         gameOverLabel.isHidden = true
-         finalTimeLabel.isHidden = true
-         finalScoreLabel.isHidden = true
-         finalTimeField.isHidden = true
-         finalScoreField.isHidden = true
-         nameField.isHidden = true
-         nameLabel.isHidden = true
-         submitButton.isHidden = true
-         highScoreButton.isHidden = false*/
         
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let path = URL(fileURLWithPath: paths[0]).appendingPathComponent("highScores.plist").path
@@ -402,6 +382,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             dict?.setObject(Int(scoreField.text!)!, forKey: nameField.text! as NSCopying)
             noNameLabel.isHidden = true
         } else {
+            view.bringSubview(toFront: noNameLabel)
             noNameLabel.isHidden = false
             return
         }
@@ -501,7 +482,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         nameField.isHidden = true
         nameLabel.isHidden = true
         submitButton.isHidden = true
-        highScoreButton.isHidden = false*/
+        highScoreButton.isHidden = false
         
         self.viewDidLoad()
         

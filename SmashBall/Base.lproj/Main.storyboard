@@ -212,7 +212,6 @@
                         <outlet property="scrollView" destination="K1C-u1-2IY" id="77t-7X-1Tc"/>
                         <outlet property="submitButton" destination="tej-K0-DGA" id="n1q-Wq-2NE"/>
                         <outlet property="timeField" destination="cBf-ag-ruU" id="bYH-ty-HBs"/>
-                        <outlet property="timerLabel" destination="6Fx-CC-Th9" id="JUS-MW-cYA"/>
                         <outlet property="titleLabel" destination="JlC-yM-BWZ" id="Otb-qd-rJd"/>
                     </connections>
                 </viewController>
