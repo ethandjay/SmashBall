@@ -17,7 +17,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var alertPowerUp: UILabel!
-    @IBOutlet weak var highScoreButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var nameLabel: UILabel!
@@ -26,6 +25,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var highScoreButton: UIButton!
     
     @IBOutlet weak var timeField: UILabel!
     @IBOutlet weak var livesField: UILabel!
@@ -55,6 +55,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var isInvulnerable = false
     
     var blurView: UIVisualEffectView?
+    
+    var titleView: UILabel = UILabel()
+    var scoresView: UILabel = UILabel()
+    var backButton: UIButton = UIButton()
     
     
     @IBAction func playPressed(_ sender: Any) {
@@ -301,6 +305,84 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         self.viewDidLoad()
     }
+    
+    @IBAction func loadHighScores(_ sender: Any) {
+        for child in view.subviews {
+            child.isHidden = true
+        }
+        blurView!.isHidden = false
+        sceneView.isHidden = false
+        
+        let titleFrame = CGRect(x: 0, y: 20, width: view.frame.size.width, height: 100)
+        titleView = UILabel(frame: titleFrame)
+        titleView.font = UIFont.boldSystemFont(ofSize: 36)
+        titleView.text = "High Scores"
+        titleView.textColor = UIColor.white
+        titleView.center.x = view.center.x
+        titleView.textAlignment = .center
+        view.addSubview(titleView)
+        
+        let scoresFrame = CGRect(x: 0, y: 80, width: view.frame.size.width, height: view.frame.size.height - 200)
+        scoresView = UILabel(frame: scoresFrame)
+        scoresView.font = UIFont.boldSystemFont(ofSize: 20)
+        scoresView.textColor = UIColor.white
+        scoresView.center.x = view.center.x
+        scoresView.textAlignment = .center
+        scoresView.text = ""
+        scoresView.numberOfLines = 100
+        
+        var dict: [String: Any] = [:]
+        if let path = Bundle.main.path(forResource: "highScores", ofType: "plist") {
+            dict = NSDictionary(contentsOfFile: path) as! [String: Any]
+        }
+        
+        var scores: [(String, Int)] = []
+        dict.forEach {
+            let name = $0.key
+            let score = $0.value as! Int
+            scores.append( (name, score)  )
+        }
+
+        scores.sort(by: { $0.1 > $1.1 })
+        let finalScores = scores[0..<5]
+        finalScores.forEach {
+            scoresView.text!.append("\($0): \($1)\n")
+        }
+        
+        view.addSubview(scoresView)
+        
+        let backFrame = CGRect(x: 0, y: 500, width: view.frame.size.width, height: 100)
+        backButton = UIButton(frame: backFrame)
+        backButton.titleLabel!.font = UIFont.boldSystemFont(ofSize: 30)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(UIColor.white, for: .normal)
+        backButton.center.x = view.center.x
+        backButton.titleLabel!.textAlignment = .center
+        
+        backButton.addTarget(self, action: #selector(highScoresBack), for: .touchUpInside)
+        
+        view.addSubview(backButton)
+        
+        
+        
+    }
+    
+    @objc func highScoresBack(sender: UIButton!){
+        for child in view.subviews {
+            child.isHidden = true
+        }
+        
+        backButton.removeFromSuperview()
+        scoresView.removeFromSuperview()
+        titleView.removeFromSuperview()
+        
+        sceneView.isHidden = false
+        blurView!.isHidden = false
+        titleLabel.isHidden = false
+        playButton.isHidden = false
+        highScoreButton.isHidden = false
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
